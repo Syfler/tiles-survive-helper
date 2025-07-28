@@ -85,51 +85,8 @@
                         <span class="block sm:inline mt-2">Using your resources outside of a relevant event is a waste. Always check the event schedules in this tool before spending anything!</span>
                     </div>
 
-                    <div>
-                        <h2 class="font-logo text-3xl text-emerald-400 mb-3">How to Use Each Section</h2>
-                        <ul class="list-disc list-inside space-y-4">
-                            <li>
-                                <strong class="font-semibold text-emerald-400">Power Plant Req's:</strong> Use this section to plan your building upgrades. Knowing the prerequisites for high-level Power Plants helps you avoid getting stuck and allows you to build efficiently.
-                            </li>
-                            <li>
-                                <strong class="font-semibold text-emerald-400">Alliance Duel:</strong> This is a key weekly event. Check the schedule at the start of the week and prepare your resources for each day's theme. For example, save all your research speedups for "Tech Research" day to score maximum points for yourself and your alliance.
-                            </li>
-                            <li>
-                                <strong class="font-semibold text-emerald-400">Turbo Turtle:</strong> Another major weekly event. The tasks for each phase are different. Consult this guide to know when to use your Hero Fragments, Behemoth items, or Chief Gear materials.
-                            </li>
-                            <li>
-                                <strong class="font-semibold text-emerald-400">Power Play:</strong> This event changes every few hours. Before using any speedups or items, quickly check the current theme here. A few seconds of verification can save you from wasting items that would have given you points just a few hours later.
-                            </li>
-                        </ul>
-                    </div>
-                    
-                    <div class="pt-4 border-t border-slate-700 space-y-4">
-                        <h2 class="font-logo text-3xl text-emerald-400 mb-3">Event Rules & Conditions</h2>
-                        <div>
-                            <h3 class="text-xl font-semibold text-emerald-400 mb-2">Alliance Duel Participation</h3>
-                            <ul class="list-disc list-inside space-y-2">
-                                <li>A **Power Plant level 10** is required to participate.</li>
-                                <li>Your Alliance must have **10 or more members**.</li>
-                                <li>On Sunday, the **top 36 Alliances** in the State are selected for the next week's matchmaking.</li>
-                                <li><strong class="text-amber-400">Important:</strong> Switching Alliances during the event will block your point contributions for that day. Your personal milestone rewards will not be affected.</li>
-                            </ul>
-                        </div>
-                        <div>
-                            <h3 class="text-xl font-semibold text-emerald-400 mb-2">Turbo Turtle Rules</h3>
-                            <ul class="list-disc list-inside space-y-2">
-                                <li>The event consists of 5-8 stages, each lasting 1-2 days.</li>
-                                <li>A tier system (Bronze to Master) ranks players. Top performers in each group advance to a higher tier for better rewards, while bottom performers drop.</li>
-                                <li>Your final tier carries over to the next event session.</li>
-                            </ul>
-                        </div>
-                        <div>
-                            <h3 class="text-xl font-semibold text-emerald-400 mb-2">Power Play Rules</h3>
-                            <ul class="list-disc list-inside space-y-2">
-                                <li>The event opens daily, with a new theme every 4 hours.</li>
-                                <li>Every day, 12 players with similar Power Plant levels are grouped for ranking.</li>
-                                <li>A minimum of 1 point is required to be eligible for daily ranking rewards.</li>
-                            </ul>
-                        </div>
+                    <div id="guide-accordion" class="space-y-4 pt-4 border-t border-slate-700">
+                        <!-- Guide accordion will be populated by JS -->
                     </div>
                 </div>
             </section>
@@ -210,6 +167,29 @@
 
     <script>
         // --- DATA ---
+        const guideData = {
+            "Power Plant Req's": {
+                "How to use this section": "Use this section to plan your building upgrades. Knowing the prerequisites for high-level Power Plants helps you avoid getting stuck and allows you to build efficiently.",
+                "Event Rules & Conditions": "N/A",
+                "Tips & Tricks": "Coming soon..."
+            },
+            "Alliance Duel": {
+                "How to use this section": "This is a key weekly event. Check the schedule at the start of the week and prepare your resources for each day's theme. For example, save all your research speedups for \"Tech Research\" day to score maximum points for yourself and your alliance.",
+                "Event Rules & Conditions": "A **Power Plant level 10** is required to participate.<br>Your Alliance must have **10 or more members**.<br>On Sunday, the **top 36 Alliances** in the State are selected for the next week's matchmaking.<br><strong class=\"text-amber-400\">Important:</strong> Switching Alliances during the event will block your point contributions for that day. Your personal milestone rewards will not be affected.",
+                "Tips & Tricks": "Coming soon..."
+            },
+            "Turbo Turtle": {
+                "How to use this section": "Another major weekly event. The tasks for each phase are different. Consult this guide to know when to use your Hero Fragments, Behemoth items, or Chief Gear materials.",
+                "Event Rules & Conditions": "The event consists of 5-8 stages, each lasting 1-2 days.<br>A tier system (Bronze to Master) ranks players. Top performers in each group advance to a higher tier for better rewards, while bottom performers drop.<br>Your final tier carries over to the next event session.",
+                "Tips & Tricks": "Coming soon..."
+            },
+            "Power Play": {
+                "How to use this section": "This event changes every few hours. Before using any speedups or items, quickly check the current theme here. A few seconds of verification can save you from wasting items that would have given you points just a few hours later.",
+                "Event Rules & Conditions": "The event opens daily, with a new theme every 4 hours.<br>Every day, 12 players with similar Power Plant levels are grouped for ranking.<br>A minimum of 1 point is required to be eligible for daily ranking rewards.",
+                "Tips & Tricks": "Coming soon..."
+            }
+        };
+
         const powerPlantData = [
             { level: 17, prerequisites: ["Comms Outpost Lv.16", "Barracks 1 Lv.16"] }, { level: 18, prerequisites: [] }, { level: 19, prerequisites: [] }, { level: 20, prerequisites: [] }, { level: 21, prerequisites: [] }, { level: 22, prerequisites: [] },
             { level: 23, prerequisites: ["Comms Outpost Lv.22", "Barracks 1 Lv.22"] }, { level: 24, prerequisites: ["Lab 1 Lv.23", "Hero Academy Lv.18"] }, { level: 25, prerequisites: ["Comms Outpost Lv.24", "Barracks 1 Lv.24"] },
@@ -520,6 +500,67 @@
                     versionList.appendChild(li);
                 });
             }
+            
+            function populateGuideAccordion() {
+                const container = document.getElementById('guide-accordion');
+                container.innerHTML = '';
+                Object.keys(guideData).forEach(key => {
+                    const item = guideData[key];
+                    const accordionItem = document.createElement('div');
+                    accordionItem.className = 'bg-slate-700/50 rounded-xl shadow-lg';
+
+                    const button = document.createElement('button');
+                    button.className = 'w-full flex justify-between items-center p-4 text-left font-semibold text-lg text-emerald-400';
+                    button.innerHTML = `<span>${key}</span><svg class="w-6 h-6 transform transition-transform text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>`;
+                    
+                    const content = document.createElement('div');
+                    content.className = 'accordion-content px-4 pb-4 space-y-4';
+
+                    Object.keys(item).forEach(subKey => {
+                        const subAccordionItem = document.createElement('div');
+                        subAccordionItem.className = 'bg-slate-800/50 rounded-lg';
+                        
+                        const subButton = document.createElement('button');
+                        subButton.className = 'w-full flex justify-between items-center p-3 text-left font-semibold text-md text-white';
+                        subButton.innerHTML = `<span>${subKey}</span><svg class="w-5 h-5 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>`;
+
+                        const subContent = document.createElement('div');
+                        subContent.className = 'accordion-content px-3 pb-3 text-base text-gray-300';
+                        subContent.innerHTML = item[subKey];
+
+                        subAccordionItem.appendChild(subButton);
+                        subAccordionItem.appendChild(subContent);
+                        content.appendChild(subAccordionItem);
+
+                        subButton.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            const svg = subButton.querySelector('svg');
+                            if (subContent.style.maxHeight) {
+                                subContent.style.maxHeight = null;
+                                svg.style.transform = 'rotate(0deg)';
+                            } else {
+                                subContent.style.maxHeight = subContent.scrollHeight + "px";
+                                svg.style.transform = 'rotate(180deg)';
+                            }
+                        });
+                    });
+
+                    accordionItem.appendChild(button);
+                    accordionItem.appendChild(content);
+                    container.appendChild(accordionItem);
+
+                    button.addEventListener('click', () => {
+                        const svg = button.querySelector('svg');
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                            svg.style.transform = 'rotate(0deg)';
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                            svg.style.transform = 'rotate(180deg)';
+                        }
+                    });
+                });
+            }
 
             // Navigation Logic
             const navLinks = document.querySelectorAll('.nav-link');
@@ -549,6 +590,7 @@
             });
 
             // Initial Load
+            populateGuideAccordion();
             populatePowerPlantTable();
             populateAllianceDuelSchedule();
             populateAllianceDuelTasks();
