@@ -1,605 +1,437 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tiles Survive! - Game Helper</title>
+    <title>Tiles Survive! - Optimization Helper</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Poppins', sans-serif;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
         }
-        .font-logo {
+        h1, h2, h3, .font-logo {
             font-family: 'Luckiest Guy', cursive;
         }
-        .content-wrapper {
-            display: flex;
-            flex: 1;
-        }
         .nav-link.active {
-            background-color: #10B981; /* emerald-500 */
-            color: #FFFFFF; /* white */
-            font-weight: 600;
-        }
-        .content-section {
-            display: none;
-        }
-        .content-section.active {
-            display: block;
+            background-color: #34d399; /* emerald-400 */
+            color: #111827; /* gray-900 */
         }
         .accordion-content {
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.3s ease-out;
         }
-        #version-modal {
-            display: none;
+        .accordion-button svg {
+            transition: transform 0.3s ease-in-out;
         }
-        #version-modal.flex {
+        .accordion-button.open svg {
+            transform: rotate(180deg);
+        }
+        /* Ensure main content takes up available space */
+        .main-container {
             display: flex;
+            min-height: 100vh;
+        }
+        .content-wrapper {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
         }
     </style>
 </head>
-<body class="bg-gradient-to-b from-slate-900 to-blue-900 text-gray-200">
+<body class="bg-gradient-to-br from-slate-900 to-blue-900 text-gray-200">
 
-    <div class="content-wrapper">
-        <!-- Sidebar Navigation -->
-        <aside class="bg-slate-800/80 backdrop-blur-sm text-white w-64 space-y-6 py-7 px-2 flex flex-col">
-            <div>
-                <a href="#guide" class="text-white flex items-center space-x-2 px-4">
-                    <span class="font-logo text-4xl tracking-wider text-shadow">TILES SURVIVE!</span>
-                </a>
-            </div>
-
-            <nav id="nav-menu" class="flex-grow">
-                <a href="#guide" class="nav-link block py-2.5 px-4 rounded-lg transition duration-200 hover:bg-slate-700/50">Guide & Strategy</a>
-                <a href="#power-plant" class="nav-link block py-2.5 px-4 rounded-lg transition duration-200 hover:bg-slate-700/50">Power Plant Req's</a>
-                <a href="#alliance-duel" class="nav-link block py-2.5 px-4 rounded-lg transition duration-200 hover:bg-slate-700/50">Alliance Duel</a>
-                <a href="#turbo-turtle" class="nav-link block py-2.5 px-4 rounded-lg transition duration-200 hover:bg-slate-700/50">Turbo Turtle</a>
-                <a href="#power-play" class="nav-link block py-2.5 px-4 rounded-lg transition duration-200 hover:bg-slate-700/50">Power Play</a>
-            </nav>
-        </aside>
-
-        <!-- Main content -->
-        <main class="flex-1 p-6 md:p-10 overflow-y-auto">
-            
-            <!-- Guide & Strategy Section -->
-            <section id="guide" class="content-section">
-                <h1 class="font-logo text-5xl md:text-6xl text-white mb-6 drop-shadow-lg">Optimization Guide</h1>
-                <div class="space-y-6 text-lg bg-slate-800/50 p-6 rounded-lg shadow-md">
-                    <p>
-                        Welcome to the Tiles Survive! Helper. The main goal of this tool is to help you **optimize your resource spending**. To get the most rewards and grow faster, you should only use your items (speedups, fragments, materials, etc.) during events where they give you points.
-                    </p>
-
-                    <div class="bg-red-900/80 border border-red-700 text-red-100 px-4 py-3 rounded-lg relative shadow-lg" role="alert">
-                        <strong class="font-bold flex items-center">
-                            <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
-                            CRITICAL WARNING!
-                        </strong>
-                        <span class="block sm:inline mt-2">Using your resources outside of a relevant event is a waste. Always check the event schedules in this tool before spending anything!</span>
-                    </div>
-
-                    <div id="guide-accordion" class="space-y-4 pt-4 border-t border-slate-700">
-                        <!-- Guide accordion will be populated by JS -->
-                    </div>
-                </div>
-            </section>
-
-            <!-- Other sections -->
-            <section id="power-plant" class="content-section">
-                <h1 class="font-logo text-4xl md:text-5xl text-white mb-2 drop-shadow-lg">Power Plants</h1>
-                 <p class="text-md mb-6 text-gray-400">Building requirements for upgrading the power plant.</p>
-                <div class="bg-slate-800/70 backdrop-blur-sm p-4 md:p-6 rounded-xl shadow-lg">
-                    <div class="overflow-x-auto mt-4">
-                        <table class="min-w-full">
-                            <thead class="border-b-2 border-emerald-500">
-                                <tr>
-                                    <th class="py-3 px-4 text-left text-sm font-semibold uppercase tracking-wider">Upgrade to Level</th>
-                                    <th class="py-3 px-4 text-left text-sm font-semibold uppercase tracking-wider">Building Prerequisites</th>
-                                </tr>
-                            </thead>
-                            <tbody id="power-plant-table" class="divide-y divide-slate-700"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </section>
-
-            <section id="alliance-duel" class="content-section">
-                <h1 class="font-logo text-4xl md:text-5xl text-white mb-6 drop-shadow-lg">Alliance Duel</h1>
-                <div class="bg-slate-800/70 backdrop-blur-sm p-4 md:p-6 rounded-xl shadow-lg mb-8">
-                    <h2 class="text-2xl font-semibold mb-4 border-b pb-2 border-slate-600">Weekly Schedule</h2>
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full">
-                            <thead class="border-b-2 border-emerald-500">
-                                <tr>
-                                    <th class="py-3 px-4 text-left">Day</th>
-                                    <th class="py-3 px-4 text-left">Theme</th>
-                                </tr>
-                            </thead>
-                            <tbody id="duel-schedule-table" class="divide-y divide-slate-700"></tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="bg-blue-900/80 border border-blue-700 text-blue-100 px-4 py-3 rounded-lg relative mb-6 shadow-lg" role="alert">
-                    <strong class="font-bold">Point Information:</strong>
-                    <span class="block sm:inline">Points below assume all Alliance Duel tech research is at 100%, except for "Focus - Training" (Lv. 7/10) and "Focus - Kills" (Lv. 7/10).</span>
-                </div>
-                <div id="duel-daily-tasks" class="space-y-4"></div>
-            </section>
-
-            <section id="turbo-turtle" class="content-section">
-                <h1 class="font-logo text-4xl md:text-5xl text-white mb-6 drop-shadow-lg">Turbo Turtle</h1>
-                <p class="text-md mb-6 text-gray-400">Weekly event tasks to earn points.</p>
-                <div id="turtle-daily-tasks" class="space-y-4"></div>
-            </section>
-
-            <section id="power-play" class="content-section">
-                <h1 class="font-logo text-4xl md:text-5xl text-white mb-6 drop-shadow-lg">Power Play</h1>
-                <p class="text-md mb-6 text-gray-400">Daily event schedule and tasks.</p>
-                <div id="power-play-daily-tasks" class="space-y-4"></div>
-            </section>
-
-        </main>
-    </div>
-
-    <!-- Footer -->
-    <footer class="bg-slate-900/80 text-gray-400 text-center p-4">
-        <button id="version-history-btn" class="hover:text-white underline text-xs">Version History</button>
-        <p class="text-xs mt-2 text-gray-500">
-            This is an unofficial fan-made tool. Tiles Survive! and all related assets are trademarks and property of their respective owners.
-        </p>
-    </footer>
-
-    <!-- Modal -->
-    <div id="version-modal" class="fixed inset-0 bg-black bg-opacity-70 z-50 items-center justify-center">
-        <div class="bg-slate-800 text-gray-200 rounded-lg shadow-xl p-6 w-full max-w-md mx-4 relative border-2 border-emerald-500">
-            <button id="close-modal-btn" class="absolute top-2 right-3 text-gray-500 hover:text-white text-3xl leading-none">&times;</button>
-            <h3 class="font-logo text-2xl font-semibold mb-4 text-emerald-400">Version History</h3>
-            <ul id="version-list" class="list-disc list-inside text-sm text-gray-400 space-y-1"></ul>
+<div class="main-container">
+    <!-- Sidebar Navigation -->
+    <nav class="fixed top-0 left-0 h-full w-64 bg-slate-800/70 backdrop-blur-sm p-5 flex flex-col z-30">
+        <div class="text-center mb-10">
+            <h1 class="font-logo text-3xl text-emerald-400">Tiles Survive!</h1>
+            <p class="text-sm text-gray-400">Helper Tool</p>
         </div>
+        <ul class="flex flex-col space-y-2" id="nav-menu">
+            <li><a href="#guide" data-target="guide" class="nav-link flex items-center py-3 px-4 rounded-lg transition-colors duration-200 hover:bg-emerald-500/20 active"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v1.268l4.992 2.496a1 1 0 01.707 1.707l-4.992 2.496V11l4.25 2.125a1 1 0 01.707 1.707l-4.957 2.478A1 1 0 0112 18.5v-2.268l-4.992-2.496a1 1 0 01-.707-1.707l4.992-2.496V7L7.75 4.875a1 1 0 01-.707-1.707l4.957-2.478a1 1 0 01.3-.044z" clip-rule="evenodd" /></svg>Guide & Strategy</a></li>
+            <li><a href="#power-plant" data-target="power-plant" class="nav-link flex items-center py-3 px-4 rounded-lg transition-colors duration-200 hover:bg-emerald-500/20"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" viewBox="0 0 20 20" fill="currentColor"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" /></svg>Power Plant Req's</a></li>
+            <li><a href="#alliance-duel" data-target="alliance-duel" class="nav-link flex items-center py-3 px-4 rounded-lg transition-colors duration-200 hover:bg-emerald-500/20"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" viewBox="0 0 20 20" fill="currentColor"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015.5-4.96A5 5 0 0111 16v1H1v-1a5 5 0 015-5z" /></svg>Alliance Duel</a></li>
+            <li><a href="#turbo-turtle" data-target="turbo-turtle" class="nav-link flex items-center py-3 px-4 rounded-lg transition-colors duration-200 hover:bg-emerald-500/20"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd" /></svg>Turbo Turtle</a></li>
+            <li><a href="#power-play" data-target="power-play" class="nav-link flex items-center py-3 px-4 rounded-lg transition-colors duration-200 hover:bg-emerald-500/20"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 5.555a1 1 0 011.888 0l1.264 3.862a1 1 0 00.948.65h4.03a1 1 0 01.588 1.81l-3.26 2.37a1 1 0 00-.364 1.118l1.264 3.862a1 1 0 01-1.528 1.18l-3.26-2.37a1 1 0 00-1.176 0l-3.26 2.37a1 1 0 01-1.528-1.18l1.264-3.862a1 1 0 00-.364-1.118L2.04 11.877a1 1 0 01.588-1.81h4.03a1 1 0 00.948-.65L9.555 5.555z" clip-rule="evenodd" /></svg>Power Play</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content Area -->
+    <div class="content-wrapper ml-64">
+        <main class="flex-grow p-8">
+            <div id="content-container">
+                <!-- Guide & Strategy Section -->
+                <section id="guide" class="content-section space-y-6">
+                    <h2 class="text-4xl text-emerald-400">Optimization Guide</h2>
+                    <p>This tool is designed to help you optimize resource management in Tiles Survive! by providing clear, up-to-date information on tasks and event schedules. Plan ahead to maximize your rewards.</p>
+                    <div class="bg-red-900/50 border border-red-500 rounded-lg p-4">
+                        <h3 class="text-xl text-red-400">CRITICAL WARNING!</h3>
+                        <p class="mt-2 text-red-200">Do not spend resources (speedups, materials, etc.) outside of corresponding events. Hoarding is key. Using items only when an event rewards you for it is the single most important strategy for efficient growth.</p>
+                    </div>
+                    <div id="guide-accordions" class="space-y-4"></div>
+                </section>
+
+                <!-- Power Plant Req's Section -->
+                <section id="power-plant" class="content-section hidden space-y-6">
+                    <h2 class="text-4xl text-emerald-400">Power Plant Requirements</h2>
+                    <div class="bg-slate-800/70 backdrop-blur-sm rounded-lg overflow-hidden">
+                        <table class="w-full text-left">
+                            <thead class="bg-slate-700/80">
+                                <tr>
+                                    <th class="p-4 text-emerald-400">PP Level</th>
+                                    <th class="p-4 text-emerald-400">Prerequisites</th>
+                                </tr>
+                            </thead>
+                            <tbody id="power-plant-table-body" class="divide-y divide-slate-700"></tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Alliance Duel Section -->
+                <section id="alliance-duel" class="content-section hidden space-y-6">
+                    <h2 class="text-4xl text-emerald-400">Alliance Duel</h2>
+                    <div class="bg-slate-800/70 backdrop-blur-sm rounded-lg p-4 space-y-4">
+                        <div>
+                            <h3 class="text-2xl text-emerald-400 mb-2">Weekly Schedule</h3>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left">
+                                    <thead class="bg-slate-700/80">
+                                        <tr>
+                                            <th class="p-3">Day</th>
+                                            <th class="p-3">Theme</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="alliance-duel-schedule-body" class="divide-y divide-slate-700"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="bg-blue-900/30 border border-blue-500 rounded-lg p-3">
+                            <p class="text-sm">
+                                <strong class="font-semibold text-blue-300">Point information:</strong> Points below assume all Alliance Duel tech research is at 100%, except for "Focus - Training" (Lv. 7/10) and "Focus - Kills" (Lv. 7/10).
+                            </p>
+                        </div>
+                    </div>
+                    <div id="alliance-duel-accordions" class="space-y-4"></div>
+                </section>
+
+                <!-- Turbo Turtle Section -->
+                <section id="turbo-turtle" class="content-section hidden space-y-6">
+                    <h2 class="text-4xl text-emerald-400">Turbo Turtle</h2>
+                    <div id="turbo-turtle-accordions" class="space-y-4"></div>
+                </section>
+
+                <!-- Power Play Section -->
+                <section id="power-play" class="content-section hidden space-y-6">
+                    <h2 class="text-4xl text-emerald-400">Power Play</h2>
+                    <p class="text-gray-400">Schedule is shown in UTC+1. Tasks rotate every 4 hours.</p>
+                    <div id="power-play-accordions" class="space-y-4"></div>
+                </section>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="text-center text-gray-500 p-4">
+             <button id="version-history-btn" class="hover:text-white underline text-xs">Version History</button>
+            <p class="text-xs mt-2">Disclaimer: This tool is a fan-made project and is not affiliated with the official developers of Tiles Survive!. Information is subject to change based on game updates.</p>
+        </footer>
     </div>
+</div>
 
-    <script>
-        // --- DATA ---
-        const guideData = {
-            "Power Plant Req's": {
-                "How to use this section": "Use this section to plan your building upgrades. Knowing the prerequisites for high-level Power Plants helps you avoid getting stuck and allows you to build efficiently.",
-                "Event Rules & Conditions": "N/A",
-                "Tips & Tricks": "Coming soon..."
-            },
-            "Alliance Duel": {
-                "How to use this section": "This is a key weekly event. Check the schedule at the start of the week and prepare your resources for each day's theme. For example, save all your research speedups for \"Tech Research\" day to score maximum points for yourself and your alliance.",
-                "Event Rules & Conditions": "A **Power Plant level 10** is required to participate.<br>Your Alliance must have **10 or more members**.<br>On Sunday, the **top 36 Alliances** in the State are selected for the next week's matchmaking.<br><strong class=\"text-amber-400\">Important:</strong> Switching Alliances during the event will block your point contributions for that day. Your personal milestone rewards will not be affected.",
-                "Tips & Tricks": "Coming soon..."
-            },
-            "Turbo Turtle": {
-                "How to use this section": "Another major weekly event. The tasks for each phase are different. Consult this guide to know when to use your Hero Fragments, Behemoth items, or Chief Gear materials.",
-                "Event Rules & Conditions": "The event consists of 5-8 stages, each lasting 1-2 days.<br>A tier system (Bronze to Master) ranks players. Top performers in each group advance to a higher tier for better rewards, while bottom performers drop.<br>Your final tier carries over to the next event session.",
-                "Tips & Tricks": "Coming soon..."
-            },
-            "Power Play": {
-                "How to use this section": "This event changes every few hours. Before using any speedups or items, quickly check the current theme here. A few seconds of verification can save you from wasting items that would have given you points just a few hours later.",
-                "Event Rules & Conditions": "The event opens daily, with a new theme every 4 hours.<br>Every day, 12 players with similar Power Plant levels are grouped for ranking.<br>A minimum of 1 point is required to be eligible for daily ranking rewards.",
-                "Tips & Tricks": "Coming soon..."
-            }
-        };
+<!-- Version History Modal -->
+<div id="version-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center hidden z-50">
+    <div class="bg-slate-800 rounded-lg shadow-xl w-full max-w-lg p-6 m-4 relative">
+        <button id="close-modal-btn" class="absolute top-3 right-3 text-gray-400 hover:text-white text-3xl leading-none">&times;</button>
+        <h3 class="font-logo text-2xl text-emerald-400 mb-4">Version History</h3>
+        <ul id="version-list" class="list-disc list-inside text-sm text-gray-300 space-y-2">
+            <!-- JS will populate this -->
+        </ul>
+    </div>
+</div>
 
-        const powerPlantData = [
-            { level: 17, prerequisites: ["Comms Outpost Lv.16", "Barracks 1 Lv.16"] }, { level: 18, prerequisites: [] }, { level: 19, prerequisites: [] }, { level: 20, prerequisites: [] }, { level: 21, prerequisites: [] }, { level: 22, prerequisites: [] },
-            { level: 23, prerequisites: ["Comms Outpost Lv.22", "Barracks 1 Lv.22"] }, { level: 24, prerequisites: ["Lab 1 Lv.23", "Hero Academy Lv.18"] }, { level: 25, prerequisites: ["Comms Outpost Lv.24", "Barracks 1 Lv.24"] },
-            { level: 26, prerequisites: ["Lab 1 Lv.25", "Golden Aegis Lv.20"] }, { level: 27, prerequisites: ["Comms Outpost Lv.26", "Barracks 1 Lv.26"] }, { level: 28, prerequisites: ["Lab 1 Lv.27", "Guardian of Life Lv.23"] },
-            { level: 29, prerequisites: ["Comms Outpost Lv.28", "Barracks 1 Lv.28", "Golden Aegis Lv.24"] }, { level: 30, prerequisites: ["Lab 1 Lv.29", "Barracks 1 Lv.29", "Warbringer Lv.26"] },
-        ];
 
-        const allianceDuelSchedule = [
-            { day: "Day 1", theme: "Radar Training" }, { day: "Day 2", theme: "Base Building" }, { day: "Day 3", theme: "Tech Research" },
-            { day: "Day 4", theme: "Hero Development" }, { day: "Day 5", theme: "Battle Prep" }, { day: "Day 6", theme: "Defeat Enemies" },
-        ];
+<script>
+// --- DATA ---
+const versionHistory = [
+    "v2.8 (2024-07-28): Added Power Play tasks for 'Chief Gear' theme.",
+    "v2.7 (2024-07-28): Added Day 1 tasks for Alliance Duel, Turbo Turtle, and Power Play. Reverted to stable single-language version.",
+    "v2.2 (2024-07-28): Added Turbo Turtle and Power Play rules to the Guide & Strategy page.",
+    "v2.1 (2024-07-28): Added Alliance Duel rules and conditions to the Guide & Strategy page.",
+    "v2.0 (2024-07-28): Completed Turbo Turtle event data with detailed tasks and points for Phase 7.",
+    "v1.9 (2024-07-28): Added an intellectual property disclaimer in the footer.",
+    "v1.8 (2024-07-27): Renamed Home to Guide & Strategy and added detailed instructions.",
+    "v1.7 (2024-07-27): Corrected Power Play schedule time to UTC+1."
+];
 
-        const allianceDuelTasks = {
-            "Day 1": [
-                { task: "Consume 1 Chief Stamina", points: "+600" }, { task: "Complete 1 Intel Mission(s)", points: "+93750" },
-                { task: "Use 100 points of Gear Scraps", points: "+5800" }, { task: "Use 400 points of Gear Scraps", points: "+23000" },
-                { task: "Use 2,000 points of Gear Scraps", points: "+114400" }, { task: "Use 10,000 points of Gear Scraps", points: "+571600" },
-                { task: "Earn 1 Diamonds through bundle purchases", points: "+20" }, { task: "Gather 100 Food", points: "+2" },
-                { task: "Gather 100 Wood", points: "+2" }, { task: "Gather 20 Metal", points: "+2" }, { task: "Gather 5 Gas", points: "+2" },
-            ], 
-            "Day 2": [],
-            "Day 3": [{ task: "Use 1 min(s) of Speedups on Research", points: "+625" }, { task: "Increase Power by 1 through Research", points: "+10" }, { task: "Spend 1 Clash Medal(s)", points: "+5000" }, { task: "Complete 1 Intel Mission(s)", points: "+75,000" }, { task: "Earn 1 Diamonds through bundle purchases", points: "+20" }, { task: "Every 100 Behemoth EXP gained in a single attempt", points: "+2,000" }, { task: "Use 1 Behemoth Cell(s)", points: "+24,000" },],
-            "Day 4": [{ task: "Perform 1 Targeted Draft(s)", points: "+33,500" }, { task: "Perform 1 Advanced Recruitment(s)", points: "+7,500" }, { task: "Perform 1 Standard Recruitment(s)", points: "+1,250" }, { task: "Use a Legendary Hero Fragment", points: "+30,400" }, { task: "Use an Epic Hero Fragment", points: "+3,200" }, { task: "Use a Rare Hero Fragment", points: "+320" }, { task: "Use 1 Hero Skill Manual(s)", points: "+5,000" }, { task: "Earn 1 Diamonds through bundle purchases", points: "+20" },],
-            "Day 5": [{ task: "Complete 1 Intel Mission(s)", points: "+93,750" }, { task: "Use 1 min(s) of Speedups on Construction", points: "+625" }, { task: "Increase Power by 1 through Construction", points: "+22" }, { task: "Use 1 min(s) of Speedups on Research", points: "+625" }, { task: "Increase Power by 1 through Research", points: "+10" }, { task: "Use 1 min(s) of Speedups on Troop Training/Upgrading", points: "+625" }, { task: "Train a Lv. 1 Soldier", points: "+14" }, { task: "Train a Lv. 2 Soldier", points: "+25" }, { task: "Train a Lv. 3 Soldier", points: "+39" }, { task: "Train a Lv. 4 Soldier", points: "+51" }, { task: "Train a Lv. 5 Soldier", points: "+61" }, { task: "Train a Lv. 6 Soldier", points: "N/A" }, { task: "Train a Lv. 7 Soldier", points: "N/A" }, { task: "Train a Lv. 8 Soldier", points: "N/A" }, { task: "Train a Lv. 9 Soldier", points: "N/A" }, { task: "Train a Lv. 10 Soldier", points: "N/A" },],
-            "Day 6": [{ task: "Collect 1 Flawed Sandworm Egg in Burrow Conquest", points: "+5,000" }, { task: "Collect 1 Fresh Sandworm Egg in Burrow Conquest", points: "+50,000" }, { task: "Collect 1 Perfect Sandworm Egg in Burrow Conquest", points: "+500,000" }, { task: "Dispatch 1 A-class truck(s)", points: "+100,000" }, { task: "Perform 1 S-tier task(s) in Dire Dispatch", points: "+150,000" }, { task: "Use 1 min(s) of Speedups on Construction", points: "+625" }, { task: "Use 1 min(s) of Speedups on Research", points: "+625" }, { task: "Use 1 min(s) of Speedups on Troop Training/Upgrading", points: "+625" }, { task: "Use 1 minute(s) of Healing Speedups", points: "+625" }, { task: "Defeat 1 Lv. 1 troop in burrows, cities, or Arcadia", points: "+4" }, { task: "Defeat 1 Lv. 2 troop in burrows, cities, or Arcadia", points: "+9" }, { task: "Defeat 1 Lv. 3 troop in burrows, cities, or Arcadia", points: "N/A" }, { task: "Defeat 1 Lv. 4 troop in burrows, cities, or Arcadia", points: "N/A" }, { task: "Defeat 1 Lv. 5 troop in burrows, cities, or Arcadia", points: "N/A" }, { task: "Defeat 1 Lv. 6 troop in burrows, cities, or Arcadia", points: "N/A" }, { task: "Defeat 1 Lv. 7 troop in burrows, cities, or Arcadia", points: "N/A" }, { task: "Defeat 1 Lv. 8 troop in burrows, cities, or Arcadia", points: "N/A" }, { task: "Defeat 1 Lv. 9 troop in burrows, cities, or Arcadia", points: "N/A" }, { task: "Defeat 1 Lv. 10 troop in burrows, cities, or Arcadia", points: "N/A" },],
-        };
+const powerPlantData = [
+    { level: 17, prerequisites: ["Comms Outpost Lv.16", "Barracks 1 Lv.16"] }, { level: 18, prerequisites: [] }, { level: 19, prerequisites: [] }, { level: 20, prerequisites: [] }, { level: 21, prerequisites: [] }, { level: 22, prerequisites: [] },
+    { level: 23, prerequisites: ["Comms Outpost Lv.22", "Barracks 1 Lv.22"] }, { level: 24, prerequisites: ["Lab 1 Lv.23", "Hero Academy Lv.18"] }, { level: 25, prerequisites: ["Comms Outpost Lv.24", "Barracks 1 Lv.24"] },
+    { level: 26, prerequisites: ["Lab 1 Lv.25", "Golden Aegis Lv.20"] }, { level: 27, prerequisites: ["Comms Outpost Lv.26", "Barracks 1 Lv.26"] }, { level: 28, prerequisites: ["Lab 1 Lv.27", "Guardian of Life Lv.23"] },
+    { level: 29, prerequisites: ["Comms Outpost Lv.28", "Barracks 1 Lv.28", "Golden Aegis Lv.24"] }, { level: 30, prerequisites: ["Lab 1 Lv.29", "Barracks 1 Lv.29", "Warbringer Lv.26"] },
+];
 
-        const turboTurtleSchedule = [
-            { phase: "Phase 1", theme: "Gear Refinement" },
-            { phase: "Phase 2", theme: "Construction & Gear" },
-            { phase: "Phase 3", theme: "Behemoth & Research" },
-            { phase: "Phase 4", theme: "Hero Upgrades" },
-            { phase: "Phase 5", theme: "Gear Enhancement" },
-            { phase: "Phase 6", theme: "Training & Research" },
-            { phase: "Phase 7", theme: "Power Rush" },
-        ];
+const allianceDuelSchedule = [
+    { day: "Day 1", theme: "Radar Training" }, { day: "Day 2", theme: "Base Building" }, { day: "Day 3", theme: "Tech Research" },
+    { day: "Day 4", theme: "Hero Development" }, { day: "Day 5", theme: "Battle Prep" }, { day: "Day 6", theme: "Defeat Enemies" },
+];
 
-        const turboTurtleTasks = {
-            "Phase 1": [
-                { task: "Use 1 min(s) of Speedups on Research", points: "+700" }, { task: "Use 100 points of Gear Scraps", points: "+4,000" },
-                { task: "Use 400 points of Gear Scraps", points: "+16,000" }, { task: "Use 2,000 points of Gear Scraps", points: "+80,000" },
-                { task: "Use 10,000 points of Gear Scraps", points: "+400,000" }, { task: "Train a Lv. 1 Soldier", points: "+32" },
-                { task: "Train a Lv. 2 Soldier", points: "+55" }, { task: "Train a Lv. 3 Soldier", points: "+90" },
-                { task: "Train a Lv. 4 Soldier", points: "+115" }, { task: "Train a Lv. 5 Soldier", points: "+144" },
-                { task: "Train a Lv. 6 Soldier", points: "+190" }, { task: "Train a Lv. 7 Soldier", points: "+240" },
-                { task: "Train a Lv. 8 Soldier", points: "+340" }, { task: "Train a Lv. 9 Soldier", points: "+540" },
-                { task: "Train a Lv. 10 Soldier", points: "+1,200" }, { task: "Earn 1 Diamonds through bundle purchases", points: "+400" },
-            ], 
-            "Phase 2": [],
-            "Phase 3": [{ task: "Use 1 Behemoth Cell(s)", points: "+20,000" }, { task: "Every 100 Behemoth EXP gained in a single attempt", points: "+1,000" }, { task: "Use 1 min(s) of Speedups on Research", points: "+700" }, { task: "Earn 1 Diamonds through bundle purchases", points: "+400" },],
-            "Phase 4": [{ task: "Spend Draft Vouchers on Hero Recruitment 1 time(s)", points: "+20,000" }, { task: "Spend Advanced Recruitment Tokens on Hero Recruitment 1 time(s)", points: "+8,000" }, { task: "Spend Standard Recruitment Tokens on Hero Recruitment 1 time(s)", points: "+2,000" }, { task: "Use a Legendary Hero Fragment", points: "+35,000" }, { task: "Use an Epic Hero Fragment", points: "+9,000" }, { task: "Use a Rare Hero Fragment", points: "+3,000" }, { task: "Use 1 Hero Skill Manual(s)", points: "+2,500" }, { task: "Earn 1 Diamonds through bundle purchases", points: "+400" },],
-            "Phase 5": [{ task: "Use 1 Adhesive", points: "+3,000" }, { task: "Use 1 Chief Gear Design(s)", points: "+150,000" }, { task: "Use 100 points of Gear Scraps", points: "+4,000" }, { task: "Use 400 points of Gear Scraps", points: "+16,000" }, { task: "Use 2,000 points of Gear Scraps", points: "+80,000" }, { task: "Use 10,000 points of Gear Scraps", points: "+400,000" }, { task: "Earn 1 Diamonds through bundle purchases", points: "+400" },],
-            "Phase 6": [{ task: "Use 1 min(s) of Speedups on Research", points: "+700" }, { task: "Train or Upgrade Troops", points: "N/A" }, { task: "Earn 1 Diamonds through bundle purchases", points: "+400" },],
-            "Phase 7": [ { task: "Use 1 min(s) of Speedups on Construction", points: "+700" }, { task: "Use 1 min(s) of Speedups on Research", points: "+700" }, { task: "Spend Draft Vouchers on Hero Recruitment 1 time(s)", points: "+20,000" }, { task: "Spend Advanced Recruitment Tokens on Hero Recruitment 1 time(s)", points: "+8,000" }, { task: "Spend Standard Recruitment Tokens on Hero Recruitment 1 time(s)", points: "+2,000" }, { task: "Use a Legendary Hero Fragment", points: "+35,000" }, { task: "Use an Epic Hero Fragment", points: "+9,000" }, { task: "Use a Rare Hero Fragment", points: "+3,000" }, { task: "Use 1 Hero Skill Manual(s)", points: "+2,500" }, { task: "Use 100 points of Gear Scraps", points: "+4,000" }, { task: "Use 400 points of Gear Scraps", points: "+16,000" }, { task: "Use 2,000 points of Gear Scraps", points: "+80,000" }, { task: "Use 10,000 points of Gear Scraps", points: "+400,000" }, { task: "Use 1 Behemoth Cell(s)", points: "+20,000" }, { task: "Every 100 Behemoth EXP gained in a single attempt", points: "+1,000" }, { task: "Use 1 Adhesive", points: "+3,000" }, { task: "Use 1 Chief Gear Design(s)", points: "+150,000" }, { task: "Kill Lv. 1-6 Infected", points: "+10,000" }, { task: "Kill Lv. 7-12 Infected", points: "+10,500" }, { task: "Kill Lv. 13-18 Infected", points: "+11,000" }, { task: "Kill Lv. 19-24 Infected", points: "+11,500" }, { task: "Kill Lv. 25-30 Infected", points: "+12,000" }, { task: "Rally Lv. 1-30 Infected Fiend", points: "+30,000" }, { task: "Kill an Infected via Intel", points: "+60,000" }, { task: "Gather 100 Food", points: "+2" }, { task: "Gather 100 Wood", points: "+2" }, { task: "Gather 20 Metal", points: "+2" }, { task: "Gather 5 Gas", points: "+2" }, { task: "Earn 1 Diamonds through bundle purchases", points: "+400" }, ],
-        };
-        
-        const powerPlayTasksByTheme = {
-            "Hero Upgrade": [
-                { task: "Use a Legendary Hero Fragment", points: "x9000" }, { task: "Use an Epic Hero Fragment", points: "x1000" },
-                { task: "Use a Rare Hero Fragment", points: "x150" }, { task: "Use 1 Hero Skill Manual(s)", points: "x857" },
-                { task: "Earn 1 Diamonds through bundle purchases", points: "x60" },
-            ],
-            "Chief Gear": [
-                { task: "Use 1 Adhesive", points: "x630" }, { task: "Use 1 Chief Gear Design(s)", points: "x29000" },
-                { task: "Earn 1 Diamonds through bundle purchases", points: "x60" },
-            ]
-        };
+const allianceDuelTasks = {
+    "Day 1": [ { task: "Consume 1 Chief Stamina", points: "+600" }, { task: "Complete 1 Intel Mission(s)", points: "+93750" }, { task: "Use 100 points of Gear Scraps", points: "+5800" }, { task: "Use 400 points of Gear Scraps", points: "+23000" }, { task: "Use 2,000 points of Gear Scraps", points: "+114400" }, { task: "Use 10,000 points of Gear Scraps", points: "+571600" }, { task: "Earn 1 Diamonds through bundle purchases", points: "+20" }, { task: "Gather 100 Food", points: "+2" }, { task: "Gather 100 Wood", points: "+2" }, { task: "Gather 20 Metal", points: "+2" }, { task: "Gather 5 Gas", points: "+2" }, ],
+    "Day 2": [],
+    "Day 3": [{ task: "Use 1 min(s) of Speedups on Research", points: "+625" }, { task: "Increase Power by 1 through Research", points: "+10" }, { task: "Spend 1 Clash Medal(s)", points: "+5000" }, { task: "Complete 1 Intel Mission(s)", points: "+75,000" }, { task: "Earn 1 Diamonds through bundle purchases", points: "+20" }, { task: "Every 100 Behemoth EXP gained in a single attempt", points: "+2,000" }, { task: "Use 1 Behemoth Cell(s)", points: "+24,000" },],
+    "Day 4": [{ task: "Perform 1 Targeted Draft(s)", points: "+33,500" }, { task: "Perform 1 Advanced Recruitment(s)", points: "+7,500" }, { task: "Perform 1 Standard Recruitment(s)", points: "+1,250" }, { task: "Use a Legendary Hero Fragment", points: "+30,400" }, { task: "Use an Epic Hero Fragment", points: "+3,200" }, { task: "Use a Rare Hero Fragment", points: "+320" }, { task: "Use 1 Hero Skill Manual(s)", points: "+5,000" }, { task: "Earn 1 Diamonds through bundle purchases", points: "+20" },],
+    "Day 5": [{ task: "Complete 1 Intel Mission(s)", points: "+93,750" }, { task: "Use 1 min(s) of Speedups on Construction", points: "+625" }, { task: "Increase Power by 1 through Construction", points: "+22" }, { task: "Use 1 min(s) of Speedups on Research", points: "+625" }, { task: "Increase Power by 1 through Research", points: "+10" }, { task: "Use 1 min(s) of Speedups on Troop Training/Upgrading", points: "+625" }, { task: "Train a Lv. 1 Soldier", points: "+14" }, { task: "Train a Lv. 2 Soldier", points: "+25" }, { task: "Train a Lv. 3 Soldier", points: "+39" }, { task: "Train a Lv. 4 Soldier", points: "+51" }, { task: "Train a Lv. 5 Soldier", points: "+61" }, { task: "Train a Lv. 6 Soldier", points: "N/A" }, { task: "Train a Lv. 7 Soldier", points: "N/A" }, { task: "Train a Lv. 8 Soldier", points: "N/A" }, { task: "Train a Lv. 9 Soldier", points: "N/A" }, { task: "Train a Lv. 10 Soldier", points: "N/A" },],
+    "Day 6": [{ task: "Collect 1 Flawed Sandworm Egg in Burrow Conquest", points: "+5,000" }, { task: "Collect 1 Fresh Sandworm Egg in Burrow Conquest", points: "+50,000" }, { task: "Collect 1 Perfect Sandworm Egg in Burrow Conquest", points: "+500,000" }, { task: "Dispatch 1 A-class truck(s)", points: "+100,000" }, { task: "Perform 1 S-tier task(s) in Dire Dispatch", points: "+150,000" }, { task: "Use 1 min(s) of Speedups on Construction", points: "+625" }, { task: "Use 1 min(s) of Speedups on Research", points: "+625" }, { task: "Use 1 min(s) of Speedups on Troop Training/Upgrading", points: "+625" }, { task: "Use 1 minute(s) of Healing Speedups", points: "+625" }, { task: "Defeat 1 Lv. 1 troop in burrows, cities, or Arcadia", points: "+4" }, { task: "Defeat 1 Lv. 2 troop in burrows, cities, or Arcadia", points: "+9" }, { task: "Defeat 1 Lv. 3 troop in burrows, cities, or Arcadia", points: "N/A" }, { task: "Defeat 1 Lv. 4 troop in burrows, cities, or Arcadia", points: "N/A" }, { task: "Defeat 1 Lv. 5 troop in burrows, cities, or Arcadia", points: "N/A" }, { task: "Defeat 1 Lv. 6 troop in burrows, cities, or Arcadia", points: "N/A" }, { task: "Defeat 1 Lv. 7 troop in burrows, cities, or Arcadia", points: "N/A" }, { task: "Defeat 1 Lv. 8 troop in burrows, cities, or Arcadia", points: "N/A" }, { task: "Defeat 1 Lv. 9 troop in burrows, cities, or Arcadia", points: "N/A" }, { task: "Defeat 1 Lv. 10 troop in burrows, cities, or Arcadia", points: "N/A" },],
+};
 
-        const powerPlaySchedule = {
-            "Day 1": [ 
-                { time: "01:00:00", theme: "Hero Upgrade" }, { time: "05:00:00", theme: "Settlement Construction" }, { time: "09:00:00", theme: "Chief Gear" },
-                { time: "13:00:00", theme: "Tech Research" }, { time: "17:00:00", theme: "Gear Enhancement" }, { time: "21:00:00", theme: "Behemoth Growth" },
-            ],
-            "Day 2": [ { time: "01:00:00", theme: "Settlement Construction" }, { time: "05:00:00", theme: "Chief Gear" }, { time: "09:00:00", theme: "Tech Research" }, { time: "13:00:00", theme: "Gear Enhancement" }, { time: "17:00:00", theme: "Behemoth Growth" }, { time: "21:00:00", theme: "Hero Upgrade" }, ],
-            "Day 3": [ { time: "01:00:00", theme: "Chief Gear" }, { time: "05:00:00", theme: "Tech Research" }, { time: "09:00:00", theme: "Gear Enhancement" }, { time: "13:00:00", theme: "Behemoth Growth" }, { time: "17:00:00", theme: "Hero Upgrade" }, { time: "21:00:00", theme: "Settlement Construction" }, ],
-            "Day 4": [ { time: "01:00:00", theme: "Tech Research" }, { time: "05:00:00", theme: "Gear Enhancement" }, { time: "09:00:00", theme: "Behemoth Growth" }, { time: "13:00:00", theme: "Hero Upgrade" }, { time: "17:00:00", theme: "Settlement Construction" }, { time: "21:00:00", theme: "Chief Gear" }, ],
-            "Day 5": [ { time: "01:00:00", theme: "Gear Enhancement" }, { time: "05:00:00", theme: "Behemoth Growth" }, { time: "09:00:00", theme: "Hero Upgrade" }, { time: "13:00:00", theme: "Settlement Construction" }, { time: "17:00:00", theme: "Chief Gear" }, { time: "21:00:00", theme: "Tech Research" }, ],
-            "Day 6": [ { time: "01:00:00", theme: "Behemoth Growth" }, { time: "05:00:00", theme: "Hero Upgrade" }, { time: "09:00:00", theme: "Settlement Construction" }, { time: "13:00:00", theme: "Chief Gear" }, { time: "17:00:00", theme: "Tech Research" }, { time: "21:00:00", theme: "Gear Enhancement" }, ],
-            "Day 7": [ { time: "01:00:00", theme: "Hero Upgrade" }, { time: "05:00:00", theme: "Settlement Construction" }, { time: "09:00:00", theme: "Chief Gear" }, { time: "13:00:00", theme: "Tech Research" }, { time: "17:00:00", theme: "Gear Enhancement" }, { time: "21:00:00", theme: "Behemoth Growth" }, ],
-        };
+const turboTurtleSchedule = [
+    { phase: "Phase 1", theme: "Gear Refinement" }, { phase: "Phase 2", theme: "Construction & Gear" }, { phase: "Phase 3", theme: "Behemoth & Research" },
+    { phase: "Phase 4", theme: "Hero Upgrades" }, { phase: "Phase 5", theme: "Gear Enhancement" }, { phase: "Phase 6", theme: "Training & Research" }, { phase: "Phase 7", theme: "Power Rush" },
+];
 
-        const versionHistory = [
-            "v2.8 (2024-07-28): Added Power Play tasks for 'Chief Gear' theme.",
-            "v2.7 (2024-07-28): Added Day 1 tasks for Alliance Duel, Turbo Turtle, and Power Play. Reverted to stable single-language version.",
-            "v2.2 (2024-07-28): Added Turbo Turtle and Power Play rules to the Guide & Strategy page.",
-            "v2.1 (2024-07-28): Added Alliance Duel rules and conditions to the Guide & Strategy page.",
-            "v2.0 (2024-07-28): Completed Turbo Turtle event data with detailed tasks and points for Phase 7.",
-            "v1.9 (2024-07-28): Added an intellectual property disclaimer in the footer.",
-            "v1.8 (2024-07-27): Renamed Home to Guide & Strategy and added detailed instructions.",
-            "v1.7 (2024-07-27): Corrected Power Play schedule time to UTC+1.", 
-        ];
+const turboTurtleTasks = {
+    "Phase 1": [ { task: "Use 1 min(s) of Speedups on Research", points: "+700" }, { task: "Use 100 points of Gear Scraps", points: "+4,000" }, { task: "Use 400 points of Gear Scraps", points: "+16,000" }, { task: "Use 2,000 points of Gear Scraps", points: "+80,000" }, { task: "Use 10,000 points of Gear Scraps", points: "+400,000" }, { task: "Train a Lv. 1 Soldier", points: "+32" }, { task: "Train a Lv. 2 Soldier", points: "+55" }, { task: "Train a Lv. 3 Soldier", points: "+90" }, { task: "Train a Lv. 4 Soldier", points: "+115" }, { task: "Train a Lv. 5 Soldier", points: "+144" }, { task: "Train a Lv. 6 Soldier", points: "+190" }, { task: "Train a Lv. 7 Soldier", points: "+240" }, { task: "Train a Lv. 8 Soldier", points: "+340" }, { task: "Train a Lv. 9 Soldier", points: "+540" }, { task: "Train a Lv. 10 Soldier", points: "+1,200" }, { task: "Earn 1 Diamonds through bundle purchases", points: "+400" }, ],
+    "Phase 2": [],
+    "Phase 3": [{ task: "Use 1 Behemoth Cell(s)", points: "+20,000" }, { task: "Every 100 Behemoth EXP gained in a single attempt", points: "+1,000" }, { task: "Use 1 min(s) of Speedups on Research", points: "+700" }, { task: "Earn 1 Diamonds through bundle purchases", points: "+400" },],
+    "Phase 4": [{ task: "Spend Draft Vouchers on Hero Recruitment 1 time(s)", points: "+20,000" }, { task: "Spend Advanced Recruitment Tokens on Hero Recruitment 1 time(s)", points: "+8,000" }, { task: "Spend Standard Recruitment Tokens on Hero Recruitment 1 time(s)", points: "+2,000" }, { task: "Use a Legendary Hero Fragment", points: "+35,000" }, { task: "Use an Epic Hero Fragment", points: "+9,000" }, { task: "Use a Rare Hero Fragment", points: "+3,000" }, { task: "Use 1 Hero Skill Manual(s)", points: "+2,500" }, { task: "Earn 1 Diamonds through bundle purchases", points: "+400" },],
+    "Phase 5": [{ task: "Use 1 Adhesive", points: "+3,000" }, { task: "Use 1 Chief Gear Design(s)", points: "+150,000" }, { task: "Use 100 points of Gear Scraps", points: "+4,000" }, { task: "Use 400 points of Gear Scraps", points: "+16,000" }, { task: "Use 2,000 points of Gear Scraps", points: "+80,000" }, { task: "Use 10,000 points of Gear Scraps", points: "+400,000" }, { task: "Earn 1 Diamonds through bundle purchases", points: "+400" },],
+    "Phase 6": [{ task: "Use 1 min(s) of Speedups on Research", points: "+700" }, { task: "Train or Upgrade Troops", points: "N/A" }, { task: "Earn 1 Diamonds through bundle purchases", points: "+400" },],
+    "Phase 7": [ { task: "Use 1 min(s) of Speedups on Construction", points: "+700" }, { task: "Use 1 min(s) of Speedups on Research", points: "+700" }, { task: "Spend Draft Vouchers on Hero Recruitment 1 time(s)", points: "+20,000" }, { task: "Spend Advanced Recruitment Tokens on Hero Recruitment 1 time(s)", points: "+8,000" }, { task: "Spend Standard Recruitment Tokens on Hero Recruitment 1 time(s)", points: "+2,000" }, { task: "Use a Legendary Hero Fragment", points: "+35,000" }, { task: "Use an Epic Hero Fragment", points: "+9,000" }, { task: "Use a Rare Hero Fragment", points: "+3,000" }, { task: "Use 1 Hero Skill Manual(s)", points: "+2,500" }, { task: "Use 100 points of Gear Scraps", points: "+4,000" }, { task: "Use 400 points of Gear Scraps", points: "+16,000" }, { task: "Use 2,000 points of Gear Scraps", points: "+80,000" }, { task: "Use 10,000 points of Gear Scraps", points: "+400,000" }, { task: "Use 1 Behemoth Cell(s)", points: "+20,000" }, { task: "Every 100 Behemoth EXP gained in a single attempt", points: "+1,000" }, { task: "Use 1 Adhesive", points: "+3,000" }, { task: "Use 1 Chief Gear Design(s)", points: "+150,000" }, { task: "Kill Lv. 1-6 Infected", points: "+10,000" }, { task: "Kill Lv. 7-12 Infected", points: "+10,500" }, { task: "Kill Lv. 13-18 Infected", points: "+11,000" }, { task: "Kill Lv. 19-24 Infected", points: "+11,500" }, { task: "Kill Lv. 25-30 Infected", points: "+12,000" }, { task: "Rally Lv. 1-30 Infected Fiend", points: "+30,000" }, { task: "Kill an Infected via Intel", points: "+60,000" }, { task: "Gather 100 Food", points: "+2" }, { task: "Gather 100 Wood", points: "+2" }, { task: "Gather 20 Metal", points: "+2" }, { task: "Gather 5 Gas", points: "+2" }, { task: "Earn 1 Diamonds through bundle purchases", points: "+400" }, ],
+};
 
-        // --- APP LOGIC ---
-        document.addEventListener('DOMContentLoaded', function() {
-            const navMenu = document.getElementById('nav-menu');
-            const defaultHash = '#guide';
-            const versionBtn = document.getElementById('version-history-btn');
-            const modal = document.getElementById('version-modal');
-            const closeModalBtn = document.getElementById('close-modal-btn');
+const powerPlayTasksByTheme = {
+    "Hero Upgrade": [ { task: "Use a Legendary Hero Fragment", points: "x9000" }, { task: "Use an Epic Hero Fragment", points: "x1000" }, { task: "Use a Rare Hero Fragment", points: "x150" }, { task: "Use 1 Hero Skill Manual(s)", points: "x857" }, { task: "Earn 1 Diamonds through bundle purchases", points: "x60" }, ],
+    "Chief Gear": [ { task: "Use 1 Adhesive", points: "x630" }, { task: "Use 1 Chief Gear Design(s)", points: "x29000" }, { task: "Earn 1 Diamonds through bundle purchases", points: "x60" }, ],
+    "Gear Enhancement": [
+        { task: "Use 100 points of Gear Scraps", points: "x714" },
+        { task: "Use 400 points of Gear Scraps", points: "x2857" },
+        { task: "Use 2,000 points of Gear Scraps", points: "x14286" },
+        { task: "Use 10,000 points of Gear Scraps", points: "x71429" },
+        { task: "Earn 1 Diamonds through bundle purchases", points: "x60" },
+    ],
+    "Tech Research": [
+        { task: "Increase Power by 1 through Research", points: "x3" },
+        { task: "Use 1 min(s) of Speedups on Research", points: "x42" },
+        { task: "Earn 1 Diamonds through bundle purchases", points: "x60" },
+    ]
+};
 
-            function populatePowerPlantTable() {
-                const tableBody = document.getElementById('power-plant-table');
-                tableBody.innerHTML = '';
-                powerPlantData.forEach(item => {
-                    const row = tableBody.insertRow();
-                    row.className = 'hover:bg-slate-700/50';
-                    let prereqHtml = '<span class="text-gray-400">N/A</span>';
-                    if (item.prerequisites && item.prerequisites.length > 0) {
-                        prereqHtml = '<ul class="list-disc list-inside">' + item.prerequisites.map(p => `<li>${p}</li>`).join('') + '</ul>';
-                    }
-                    row.innerHTML = `<td class="py-3 px-4 font-semibold">${item.level}</td><td class="py-3 px-4">${prereqHtml}</td>`;
-                });
-            }
+const powerPlaySchedule = {
+    "Day 1": [ { time: "01:00:00", theme: "Hero Upgrade" }, { time: "05:00:00", theme: "Settlement Construction" }, { time: "09:00:00", theme: "Chief Gear" }, { time: "13:00:00", theme: "Tech Research" }, { time: "17:00:00", theme: "Gear Enhancement" }, { time: "21:00:00", theme: "Behemoth Growth" }, ],
+    "Day 2": [ { time: "01:00:00", theme: "Settlement Construction" }, { time: "05:00:00", theme: "Chief Gear" }, { time: "09:00:00", theme: "Tech Research" }, { time: "13:00:00", theme: "Gear Enhancement" }, { time: "17:00:00", theme: "Behemoth Growth" }, { time: "21:00:00", theme: "Hero Upgrade" }, ],
+    "Day 3": [ { time: "01:00:00", theme: "Chief Gear" }, { time: "05:00:00", theme: "Tech Research" }, { time: "09:00:00", theme: "Gear Enhancement" }, { time: "13:00:00", theme: "Behemoth Growth" }, { time: "17:00:00", theme: "Hero Upgrade" }, { time: "21:00:00", theme: "Settlement Construction" }, ],
+    "Day 4": [ { time: "01:00:00", theme: "Tech Research" }, { time: "05:00:00", theme: "Gear Enhancement" }, { time: "09:00:00", theme: "Behemoth Growth" }, { time: "13:00:00", theme: "Hero Upgrade" }, { time: "17:00:00", theme: "Settlement Construction" }, { time: "21:00:00", theme: "Chief Gear" }, ],
+    "Day 5": [ { time: "01:00:00", theme: "Gear Enhancement" }, { time: "05:00:00", theme: "Behemoth Growth" }, { time: "09:00:00", theme: "Hero Upgrade" }, { time: "13:00:00", theme: "Settlement Construction" }, { time: "17:00:00", theme: "Chief Gear" }, { time: "21:00:00", theme: "Tech Research" }, ],
+    "Day 6": [ { time: "01:00:00", theme: "Behemoth Growth" }, { time: "05:00:00", theme: "Hero Upgrade" }, { time: "09:00:00", theme: "Settlement Construction" }, { time: "13:00:00", theme: "Chief Gear" }, { time: "17:00:00", theme: "Tech Research" }, { time: "21:00:00", theme: "Gear Enhancement" }, ],
+    "Day 7": [ { time: "01:00:00", theme: "Hero Upgrade" }, { time: "05:00:00", theme: "Settlement Construction" }, { time: "09:00:00", theme: "Chief Gear" }, { time: "13:00:00", theme: "Tech Research" }, { time: "17:00:00", theme: "Gear Enhancement" }, { time: "21:00:00", theme: "Behemoth Growth" }, ],
+};
 
-            function populateAllianceDuelSchedule() {
-                const tableBody = document.getElementById('duel-schedule-table');
-                tableBody.innerHTML = '';
-                const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-                allianceDuelSchedule.forEach((item, index) => {
-                    const row = tableBody.insertRow();
-                    row.className = 'hover:bg-slate-700/50';
-                    row.innerHTML = `<td class="py-3 px-4">${item.day} (${days[index]})</td><td class="py-3 px-4 font-semibold">${item.theme}</td>`;
-                });
-            }
-            
-            function createAccordion(container, data, titlePrefix, dayMap) {
-                container.innerHTML = '';
-                Object.keys(data).forEach((key, index) => {
-                    const tasks = data[key];
-                    const accordionItem = document.createElement('div');
-                    accordionItem.className = 'bg-slate-800/70 backdrop-blur-sm rounded-xl shadow-lg';
-                    const dayName = dayMap ? `(${dayMap[index]})` : '';
-                    const button = document.createElement('button');
-                    button.className = 'w-full flex justify-between items-center p-4 text-left font-semibold text-lg text-emerald-400';
-                    const titleKey = isNaN(parseInt(key)) ? key : `${titlePrefix} ${index + 1}`;
-                    button.innerHTML = `<span>${titleKey} ${dayName}</span><svg class="w-6 h-6 transform transition-transform text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>`;
-                    const content = document.createElement('div');
-                    content.className = 'accordion-content px-4 pb-4';
-                    if (tasks && tasks.length > 0 && typeof tasks[0] === 'object') {
-                        let taskTable = `<table class="min-w-full text-left"><thead><tr class="border-b-2 border-slate-600"><th class="py-2 font-semibold">Task</th><th class="py-2 font-semibold">Points</th></tr></thead><tbody class="divide-y divide-slate-700">`;
-                        tasks.forEach(task => {
-                            taskTable += `<tr class="hover:bg-slate-700/50"><td class="py-2 pr-4">${task.task}</td><td class="py-2 font-medium text-emerald-400">${task.points}</td></tr>`;
-                        });
-                        taskTable += '</tbody></table>';
-                        content.innerHTML = taskTable;
-                    } else if (tasks && tasks.length > 0) {
-                        content.innerHTML = '<ul class="list-disc list-inside text-gray-300">' + tasks.map(t => `<li>${t}</li>`).join('') + '</ul>';
-                    } else {
-                        content.innerHTML = '<p class="text-gray-400">N/A</p>';
-                    }
-                    accordionItem.appendChild(button);
-                    accordionItem.appendChild(content);
-                    container.appendChild(accordionItem);
-                    button.addEventListener('click', () => {
-                        const svg = button.querySelector('svg');
-                        if (content.style.maxHeight) {
-                            content.style.maxHeight = null;
-                            svg.style.transform = 'rotate(0deg)';
-                        } else {
-                            content.style.maxHeight = content.scrollHeight + "px";
-                            svg.style.transform = 'rotate(180deg)';
-                        }
-                    });
-                });
-            }
 
-            function populateAllianceDuelTasks() {
-                const container = document.getElementById('duel-daily-tasks');
-                container.innerHTML = '';
-                const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-                allianceDuelSchedule.forEach((item, index) => {
-                    const accordionItem = document.createElement('div');
-                    accordionItem.className = 'bg-slate-800/70 backdrop-blur-sm rounded-xl shadow-lg';
-                    const button = document.createElement('button');
-                    button.className = 'w-full flex justify-between items-center p-4 text-left font-semibold text-lg text-emerald-400';
-                    button.innerHTML = `<span>${item.day} (${days[index]}): ${item.theme}</span><svg class="w-6 h-6 transform transition-transform text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>`;
-                    const content = document.createElement('div');
-                    content.className = 'accordion-content px-4 pb-4';
-                    const tasks = allianceDuelTasks[item.day];
-                    if (tasks && tasks.length > 0) {
-                        let taskTable = `<table class="min-w-full text-left"><thead><tr class="border-b-2 border-slate-600"><th class="py-2 font-semibold">Task</th><th class="py-2 font-semibold">Points</th></tr></thead><tbody class="divide-y divide-slate-700">`;
-                        tasks.forEach(task => {
-                            taskTable += `<tr class="hover:bg-slate-700/50"><td class="py-2 pr-4">${task.task}</td><td class="py-2 font-medium text-emerald-400">${task.points}</td></tr>`;
-                        });
-                        taskTable += '</tbody></table>';
-                        content.innerHTML = taskTable;
-                    } else {
-                        content.innerHTML = '<p class="text-gray-400">N/A</p>';
-                    }
-                    accordionItem.appendChild(button);
-                    accordionItem.appendChild(content);
-                    container.appendChild(accordionItem);
-                    button.addEventListener('click', () => {
-                        const svg = button.querySelector('svg');
-                        if (content.style.maxHeight) {
-                            content.style.maxHeight = null;
-                            svg.style.transform = 'rotate(0deg)';
-                        } else {
-                            content.style.maxHeight = content.scrollHeight + "px";
-                            svg.style.transform = 'rotate(180deg)';
-                        }
-                    });
-                });
-            }
+document.addEventListener('DOMContentLoaded', () => {
+    // --- HELPERS ---
+    const createAccordion = (title, content) => {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'bg-slate-800/70 backdrop-blur-sm rounded-lg overflow-hidden';
+        wrapper.innerHTML = `
+            <button class="accordion-button w-full flex justify-between items-center p-4 text-left text-emerald-400 font-semibold text-lg hover:bg-slate-700/50 transition-colors">
+                <span>${title}</span>
+                <svg class="h-6 w-6 text-emerald-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+            </button>
+            <div class="accordion-content">
+                <div class="p-4 border-t border-slate-700">
+                    ${content}
+                </div>
+            </div>
+        `;
+        return wrapper;
+    };
 
-            function populateTurboTurtleTasks() {
-                const container = document.getElementById('turtle-daily-tasks');
-                container.innerHTML = '';
-                const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-                turboTurtleSchedule.forEach((item, index) => {
-                    const accordionItem = document.createElement('div');
-                    accordionItem.className = 'bg-slate-800/70 backdrop-blur-sm rounded-xl shadow-lg';
-                    const button = document.createElement('button');
-                    button.className = 'w-full flex justify-between items-center p-4 text-left font-semibold text-lg text-emerald-400';
-                    const themeText = item.theme ? `: ${item.theme}` : '';
-                    button.innerHTML = `<span>${item.phase} (${days[index]})${themeText}</span><svg class="w-6 h-6 transform transition-transform text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>`;
-                    const content = document.createElement('div');
-                    content.className = 'accordion-content px-4 pb-4';
-                    const tasks = turboTurtleTasks[item.phase];
-                    if (tasks && tasks.length > 0) {
-                        let taskTable = `<table class="min-w-full text-left"><thead><tr class="border-b-2 border-slate-600"><th class="py-2 font-semibold">Task</th><th class="py-2 font-semibold">Points</th></tr></thead><tbody class="divide-y divide-slate-700">`;
-                        tasks.forEach(task => {
-                            taskTable += `<tr class="hover:bg-slate-700/50"><td class="py-2 pr-4">${task.task}</td><td class="py-2 font-medium text-emerald-400">${task.points}</td></tr>`;
-                        });
-                        taskTable += '</tbody></table>';
-                        content.innerHTML = taskTable;
-                    } else {
-                        content.innerHTML = '<p class="text-gray-400">N/A</p>';
-                    }
-                    accordionItem.appendChild(button);
-                    accordionItem.appendChild(content);
-                    container.appendChild(accordionItem);
-                    button.addEventListener('click', () => {
-                        const svg = button.querySelector('svg');
-                        if (content.style.maxHeight) {
-                            content.style.maxHeight = null;
-                            svg.style.transform = 'rotate(0deg)';
-                        } else {
-                            content.style.maxHeight = content.scrollHeight + "px";
-                            svg.style.transform = 'rotate(180deg)';
-                        }
-                    });
-                });
-            }
-
-            function populatePowerPlaySchedule() {
-                const container = document.getElementById('power-play-daily-tasks');
-                container.innerHTML = '';
-                const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-                const dayKeys = Object.keys(powerPlaySchedule);
-
-                dayKeys.forEach((key, index) => {
-                    const schedule = powerPlaySchedule[key];
-                    const accordionItem = document.createElement('div');
-                    accordionItem.className = 'bg-slate-800/70 backdrop-blur-sm rounded-xl shadow-lg';
-                    
-                    const button = document.createElement('button');
-                    button.className = 'w-full flex justify-between items-center p-4 text-left font-semibold text-lg text-emerald-400';
-                    button.innerHTML = `<span>${key} (${days[index]})</span><svg class="w-6 h-6 transform transition-transform text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>`;
-
-                    const content = document.createElement('div');
-                    content.className = 'accordion-content px-4 pb-4';
-                    
-                    // Link themes to their tasks
-                    schedule.forEach(event => {
-                        if (powerPlayTasksByTheme[event.theme]) {
-                            event.tasks = powerPlayTasksByTheme[event.theme];
-                        }
-                    });
-
-                    let scheduleTable = `<table class="min-w-full text-left"><thead><tr class="border-b-2 border-slate-600"><th class="py-2 font-semibold">Opening Time (UTC+1)</th><th class="py-2 font-semibold">Theme</th></tr></thead><tbody class="divide-y divide-slate-700">`;
-                    schedule.forEach(item => {
-                        scheduleTable += `<tr class="hover:bg-slate-700/50"><td class="py-2 pr-4">${item.time}</td><td class="py-2">${item.theme}</td></tr>`;
-                        if(item.tasks && item.tasks.length > 0){
-                            scheduleTable += `<tr class="hover:bg-slate-700/50"><td colspan="2" class="py-2 px-4"><table class="min-w-full text-sm"><thead><tr class="border-b border-slate-600"><th class="py-1 pr-2 font-normal">Task</th><th class="py-1 font-normal">Points</th></tr></thead><tbody>`;
-                            item.tasks.forEach(task => {
-                                scheduleTable += `<tr><td class="py-1 pr-2">${task.task}</td><td class="font-medium text-emerald-400">${task.points}</td></tr>`
-                            });
-                            scheduleTable += `</tbody></table></td></tr>`;
-                        }
-                    });
-                    scheduleTable += '</tbody></table>';
-                    content.innerHTML = scheduleTable;
-                    
-                    accordionItem.appendChild(button);
-                    accordionItem.appendChild(content);
-                    container.appendChild(accordionItem);
-
-                    button.addEventListener('click', () => {
-                        const svg = button.querySelector('svg');
-                        if (content.style.maxHeight) {
-                            content.style.maxHeight = null;
-                            svg.style.transform = 'rotate(0deg)';
-                        } else {
-                            content.style.maxHeight = content.scrollHeight + "px";
-                            svg.style.transform = 'rotate(180deg)';
-                        }
-                    });
-                });
-            }
-
-            function populateVersionHistory() {
-                const versionList = document.getElementById('version-list');
-                versionList.innerHTML = '';
-                versionHistory.forEach(version => {
-                    const li = document.createElement('li');
-                    li.textContent = version;
-                    versionList.appendChild(li);
-                });
-            }
-            
-            function populateGuideAccordion() {
-                const container = document.getElementById('guide-accordion');
-                container.innerHTML = '';
-                Object.keys(guideData).forEach(key => {
-                    const item = guideData[key];
-                    const accordionItem = document.createElement('div');
-                    accordionItem.className = 'bg-slate-700/50 rounded-xl shadow-lg';
-
-                    const button = document.createElement('button');
-                    button.className = 'w-full flex justify-between items-center p-4 text-left font-semibold text-lg text-emerald-400';
-                    button.innerHTML = `<span>${key}</span><svg class="w-6 h-6 transform transition-transform text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>`;
-                    
-                    const content = document.createElement('div');
-                    content.className = 'accordion-content px-4 pb-4 space-y-4';
-
-                    Object.keys(item).forEach(subKey => {
-                        const subAccordionItem = document.createElement('div');
-                        subAccordionItem.className = 'bg-slate-800/50 rounded-lg';
-                        
-                        const subButton = document.createElement('button');
-                        subButton.className = 'w-full flex justify-between items-center p-3 text-left font-semibold text-md text-white';
-                        subButton.innerHTML = `<span>${subKey}</span><svg class="w-5 h-5 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>`;
-
-                        const subContent = document.createElement('div');
-                        subContent.className = 'accordion-content px-3 pb-3 text-base text-gray-300';
-                        subContent.innerHTML = item[subKey];
-
-                        subAccordionItem.appendChild(subButton);
-                        subAccordionItem.appendChild(subContent);
-                        content.appendChild(subAccordionItem);
-
-                        subButton.addEventListener('click', (e) => {
-                            e.stopPropagation();
-                            const svg = subButton.querySelector('svg');
-                            if (subContent.style.maxHeight) {
-                                subContent.style.maxHeight = null;
-                                svg.style.transform = 'rotate(0deg)';
-                            } else {
-                                subContent.style.maxHeight = subContent.scrollHeight + "px";
-                                svg.style.transform = 'rotate(180deg)';
-                            }
-                        });
-                    });
-
-                    accordionItem.appendChild(button);
-                    accordionItem.appendChild(content);
-                    container.appendChild(accordionItem);
-
-                    button.addEventListener('click', () => {
-                        const svg = button.querySelector('svg');
-                        if (content.style.maxHeight) {
-                            content.style.maxHeight = null;
-                            svg.style.transform = 'rotate(0deg)';
-                        } else {
-                            content.style.maxHeight = content.scrollHeight + "px";
-                            svg.style.transform = 'rotate(180deg)';
-                        }
-                    });
-                });
-            }
-
-            // Navigation Logic
-            const navLinks = document.querySelectorAll('.nav-link');
-            const contentSections = document.querySelectorAll('.content-section');
-            function changeSection(hash) {
-                const targetHash = hash || defaultHash;
-                navLinks.forEach(link => link.classList.toggle('active', link.getAttribute('href') === targetHash));
-                contentSections.forEach(section => section.classList.toggle('active', '#' + section.id === targetHash));
-            }
-            navMenu.addEventListener('click', function(e) {
-                const link = e.target.closest('a.nav-link');
-                if (link) {
-                    e.preventDefault();
-                    const targetHash = link.getAttribute('href');
-                    if (window.location.hash !== targetHash) history.pushState(null, null, targetHash);
-                    changeSection(targetHash);
-                }
+    const createTable = (headers, rows) => {
+        let tableHTML = `<div class="overflow-x-auto"><table class="w-full text-left text-sm"><thead><tr class="bg-slate-900/50">`;
+        headers.forEach(h => tableHTML += `<th class="p-2">${h}</th>`);
+        tableHTML += `</tr></thead><tbody class="divide-y divide-slate-600">`;
+        if (rows.length === 0) {
+            tableHTML += `<tr><td colspan="${headers.length}" class="p-4 text-center text-gray-400">No tasks listed for this day.</td></tr>`;
+        } else {
+            rows.forEach(row => {
+                tableHTML += `<tr class="hover:bg-slate-700/40">`;
+                row.forEach(cell => tableHTML += `<td class="p-2">${cell}</td>`);
+                tableHTML += `</tr>`;
             });
-            window.addEventListener('popstate', () => changeSection(window.location.hash));
-            
-            // Modal Logic
-            const closeModal = () => modal.classList.remove('flex');
-            versionBtn.addEventListener('click', () => modal.classList.add('flex'));
-            closeModalBtn.addEventListener('click', closeModal);
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) closeModal();
-            });
+        }
+        tableHTML += `</tbody></table></div>`;
+        return tableHTML;
+    };
 
-            // Initial Load
-            populateGuideAccordion();
-            populatePowerPlantTable();
-            populateAllianceDuelSchedule();
-            populateAllianceDuelTasks();
-            populateTurboTurtleTasks();
-            populatePowerPlaySchedule();
-            populateVersionHistory();
-            changeSection(window.location.hash || defaultHash);
+    // --- PAGE POPULATION FUNCTIONS ---
+    
+    function populateGuidePage() {
+        const guideEvents = [
+            { title: "Power Plant Req's", rules: "This section shows the building requirements for each Power Plant level.", tip: "Always focus on building the required buildings for the next Power Plant level before using speedups to finish your current Power Plant construction. As construction times get longer at higher levels, it's crucial not to rush. This ensures that once your current Power Plant is complete, you only need to upgrade the final required building to its new level to immediately start the next Power Plant upgrade, avoiding long waiting times." },
+            { title: "Alliance Duel", rules: "A week-long event where you compete with another alliance. Each day has a different theme for earning points.", tip: "Coordinate with your alliance. Focus on the daily tasks and save high-point items (like advanced recruitments) for the corresponding day." },
+            { title: "Turbo Turtle", rules: "A multi-phase event where players complete tasks to earn points and rewards.", tip: "Check the phases in advance. The final phase, 'Power Rush', often allows points from many categories, making it a good time to use any remaining resources." },
+            { title: "Power Play", rules: "A recurring daily event with rotating themes every few hours. Points are multiplied.", tip: "Set alarms for the themes you want to focus on, like Hero Upgrades or Chief Gear. The point multipliers are significant." }
+        ];
+        const guideContainer = document.getElementById('guide-accordions');
+        guideContainer.innerHTML = ''; // Clear previous content
+        guideEvents.forEach(event => {
+            let subAccordionContent = `
+                <div class="space-y-3">
+                    ${createAccordion('How to use this section', `<p>Use this to understand the event's purpose and how to best prepare for it.</p>`).innerHTML}
+                    ${createAccordion('Event Rules & Conditions', `<p>${event.rules}</p>`).innerHTML}
+                    ${createAccordion('Tips & Tricks', `<p>${event.tip}</p>`).innerHTML}
+                </div>
+            `;
+            guideContainer.appendChild(createAccordion(event.title, subAccordionContent));
         });
-    </script>
+    }
 
+    function populatePowerPlantPage() {
+        const ppBody = document.getElementById('power-plant-table-body');
+        ppBody.innerHTML = ''; // Clear previous content
+        powerPlantData.forEach(item => {
+            const row = document.createElement('tr');
+            row.className = 'hover:bg-slate-700/40';
+            row.innerHTML = `
+                <td class="p-4 font-semibold">${item.level}</td>
+                <td class="p-4">${item.prerequisites.length > 0 ? item.prerequisites.join(', ') : '<span class="text-gray-500">N/A</span>'}</td>
+            `;
+            ppBody.appendChild(row);
+        });
+    }
+
+    function populateAllianceDuelPage() {
+        const adScheduleBody = document.getElementById('alliance-duel-schedule-body');
+        adScheduleBody.innerHTML = ''; // Clear previous content
+        allianceDuelSchedule.forEach(item => {
+            const row = document.createElement('tr');
+            row.className = 'hover:bg-slate-700/40';
+            row.innerHTML = `<td class="p-3">${item.day}</td><td class="p-3">${item.theme}</td>`;
+            adScheduleBody.appendChild(row);
+        });
+
+        const adAccordions = document.getElementById('alliance-duel-accordions');
+        adAccordions.innerHTML = ''; // Clear previous content
+        allianceDuelSchedule.forEach(item => {
+            const tasks = allianceDuelTasks[item.day] || [];
+            const taskRows = tasks.map(t => [t.task, t.points]);
+            const table = createTable(['Task', 'Points'], taskRows);
+            adAccordions.appendChild(createAccordion(`${item.day}: ${item.theme}`, table));
+        });
+    }
+
+    function populateTurboTurtlePage() {
+        const ttAccordions = document.getElementById('turbo-turtle-accordions');
+        ttAccordions.innerHTML = ''; // Clear previous content
+        turboTurtleSchedule.forEach(item => {
+            const tasks = turboTurtleTasks[item.phase] || [];
+            const taskRows = tasks.map(t => [t.task, t.points]);
+            const table = createTable(['Task', 'Points'], taskRows);
+            ttAccordions.appendChild(createAccordion(`${item.phase}: ${item.theme}`, table));
+        });
+    }
+
+    function populatePowerPlayPage() {
+        const ppAccordions = document.getElementById('power-play-accordions');
+        ppAccordions.innerHTML = ''; // Clear previous content
+        Object.keys(powerPlaySchedule).forEach(day => {
+            const daySchedule = powerPlaySchedule[day];
+            const scheduleRows = daySchedule.map(slot => {
+                const hasDetails = powerPlayTasksByTheme[slot.theme];
+                let themeCell = slot.theme;
+                if (hasDetails) {
+                    const subTableRows = hasDetails.map(t => [t.task, t.points]);
+                    const subTable = createTable(['Task', 'Multiplier'], subTableRows);
+                    themeCell += `<div class="mt-2 text-xs">${subTable}</div>`;
+                }
+                return [slot.time, themeCell];
+            });
+            const dayContent = createTable(['Time (UTC+1)', 'Theme & Tasks'], scheduleRows);
+            ppAccordions.appendChild(createAccordion(day, dayContent));
+        });
+    }
+
+    function populateVersionHistory() {
+        const versionList = document.getElementById('version-list');
+        versionList.innerHTML = ''; // Clear previous content
+        versionHistory.forEach(entry => {
+            const li = document.createElement('li');
+            li.textContent = entry;
+            versionList.appendChild(li);
+        });
+    }
+
+    // --- EVENT LISTENERS ---
+
+    // Navigation
+    const navMenu = document.getElementById('nav-menu');
+    const navLinks = navMenu.querySelectorAll('.nav-link');
+    const contentSections = document.querySelectorAll('.content-section');
+
+    navMenu.addEventListener('click', (e) => {
+        const link = e.target.closest('.nav-link');
+        if (!link) return;
+        e.preventDefault();
+
+        const targetId = link.dataset.target;
+
+        navLinks.forEach(l => l.classList.remove('active'));
+        link.classList.add('active');
+
+        contentSections.forEach(section => {
+            section.classList.toggle('hidden', section.id !== targetId);
+        });
+    });
+
+    // Accordions
+    document.body.addEventListener('click', (e) => {
+        const button = e.target.closest('.accordion-button');
+        if (!button) return;
+
+        const content = button.nextElementSibling;
+        button.classList.toggle('open');
+
+        if (content.style.maxHeight) {
+            content.style.maxHeight = null;
+        } else {
+            content.style.maxHeight = content.scrollHeight + 'px';
+        }
+    });
+
+    // Modal Logic
+    const modal = document.getElementById('version-modal');
+    const openBtn = document.getElementById('version-history-btn');
+    const closeBtn = document.getElementById('close-modal-btn');
+
+    openBtn.addEventListener('click', () => {
+        modal.classList.remove('hidden');
+    });
+
+    closeBtn.addEventListener('click', () => {
+        modal.classList.add('hidden');
+    });
+
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.classList.add('hidden');
+        }
+    });
+    
+    // --- INITIALIZATION ---
+    function initializeApp() {
+        populateGuidePage();
+        populatePowerPlantPage();
+        populateAllianceDuelPage();
+        populateTurboTurtlePage();
+        populatePowerPlayPage();
+        populateVersionHistory();
+    }
+    
+    initializeApp();
+});
+</script>
 </body>
 </html>
