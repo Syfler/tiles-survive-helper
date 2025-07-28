@@ -237,6 +237,16 @@
             "Day 6": [{ task: "Collect 1 Flawed Sandworm Egg in Burrow Conquest", points: "+5,000" }, { task: "Collect 1 Fresh Sandworm Egg in Burrow Conquest", points: "+50,000" }, { task: "Collect 1 Perfect Sandworm Egg in Burrow Conquest", points: "+500,000" }, { task: "Dispatch 1 A-class truck(s)", points: "+100,000" }, { task: "Perform 1 S-tier task(s) in Dire Dispatch", points: "+150,000" }, { task: "Use 1 min(s) of Speedups on Construction", points: "+625" }, { task: "Use 1 min(s) of Speedups on Research", points: "+625" }, { task: "Use 1 min(s) of Speedups on Troop Training/Upgrading", points: "+625" }, { task: "Use 1 minute(s) of Healing Speedups", points: "+625" }, { task: "Defeat 1 Lv. 1 troop in burrows, cities, or Arcadia", points: "+4" }, { task: "Defeat 1 Lv. 2 troop in burrows, cities, or Arcadia", points: "+9" }, { task: "Defeat 1 Lv. 3 troop in burrows, cities, or Arcadia", points: "N/A" }, { task: "Defeat 1 Lv. 4 troop in burrows, cities, or Arcadia", points: "N/A" }, { task: "Defeat 1 Lv. 5 troop in burrows, cities, or Arcadia", points: "N/A" }, { task: "Defeat 1 Lv. 6 troop in burrows, cities, or Arcadia", points: "N/A" }, { task: "Defeat 1 Lv. 7 troop in burrows, cities, or Arcadia", points: "N/A" }, { task: "Defeat 1 Lv. 8 troop in burrows, cities, or Arcadia", points: "N/A" }, { task: "Defeat 1 Lv. 9 troop in burrows, cities, or Arcadia", points: "N/A" }, { task: "Defeat 1 Lv. 10 troop in burrows, cities, or Arcadia", points: "N/A" },],
         };
 
+        const turboTurtleSchedule = [
+            { phase: "Phase 1", theme: "Gear Refinement" },
+            { phase: "Phase 2", theme: "Construction & Gear" },
+            { phase: "Phase 3", theme: "Behemoth & Research" },
+            { phase: "Phase 4", theme: "Hero Upgrades" },
+            { phase: "Phase 5", theme: "Gear Enhancement" },
+            { phase: "Phase 6", theme: "Training & Research" },
+            { phase: "Phase 7", theme: "Power Rush" },
+        ];
+
         const turboTurtleTasks = {
             "Phase 1": [
                 { task: "Use 1 min(s) of Speedups on Research", points: "+700" }, { task: "Use 100 points of Gear Scraps", points: "+4,000" },
@@ -256,14 +266,21 @@
             "Phase 7": [ { task: "Use 1 min(s) of Speedups on Construction", points: "+700" }, { task: "Use 1 min(s) of Speedups on Research", points: "+700" }, { task: "Spend Draft Vouchers on Hero Recruitment 1 time(s)", points: "+20,000" }, { task: "Spend Advanced Recruitment Tokens on Hero Recruitment 1 time(s)", points: "+8,000" }, { task: "Spend Standard Recruitment Tokens on Hero Recruitment 1 time(s)", points: "+2,000" }, { task: "Use a Legendary Hero Fragment", points: "+35,000" }, { task: "Use an Epic Hero Fragment", points: "+9,000" }, { task: "Use a Rare Hero Fragment", points: "+3,000" }, { task: "Use 1 Hero Skill Manual(s)", points: "+2,500" }, { task: "Use 100 points of Gear Scraps", points: "+4,000" }, { task: "Use 400 points of Gear Scraps", points: "+16,000" }, { task: "Use 2,000 points of Gear Scraps", points: "+80,000" }, { task: "Use 10,000 points of Gear Scraps", points: "+400,000" }, { task: "Use 1 Behemoth Cell(s)", points: "+20,000" }, { task: "Every 100 Behemoth EXP gained in a single attempt", points: "+1,000" }, { task: "Use 1 Adhesive", points: "+3,000" }, { task: "Use 1 Chief Gear Design(s)", points: "+150,000" }, { task: "Kill Lv. 1-6 Infected", points: "+10,000" }, { task: "Kill Lv. 7-12 Infected", points: "+10,500" }, { task: "Kill Lv. 13-18 Infected", points: "+11,000" }, { task: "Kill Lv. 19-24 Infected", points: "+11,500" }, { task: "Kill Lv. 25-30 Infected", points: "+12,000" }, { task: "Rally Lv. 1-30 Infected Fiend", points: "+30,000" }, { task: "Kill an Infected via Intel", points: "+60,000" }, { task: "Gather 100 Food", points: "+2" }, { task: "Gather 100 Wood", points: "+2" }, { task: "Gather 20 Metal", points: "+2" }, { task: "Gather 5 Gas", points: "+2" }, { task: "Earn 1 Diamonds through bundle purchases", points: "+400" }, ],
         };
         
+        const powerPlayTasksByTheme = {
+            "Hero Upgrade": [
+                { task: "Use a Legendary Hero Fragment", points: "x9000" }, { task: "Use an Epic Hero Fragment", points: "x1000" },
+                { task: "Use a Rare Hero Fragment", points: "x150" }, { task: "Use 1 Hero Skill Manual(s)", points: "x857" },
+                { task: "Earn 1 Diamonds through bundle purchases", points: "x60" },
+            ],
+            "Chief Gear": [
+                { task: "Use 1 Adhesive", points: "x630" }, { task: "Use 1 Chief Gear Design(s)", points: "x29000" },
+                { task: "Earn 1 Diamonds through bundle purchases", points: "x60" },
+            ]
+        };
+
         const powerPlaySchedule = {
             "Day 1": [ 
-                { time: "01:00:00", theme: "Hero Upgrade", tasks: [
-                    { task: "Use a Legendary Hero Fragment", points: "x9000" }, { task: "Use an Epic Hero Fragment", points: "x1000" },
-                    { task: "Use a Rare Hero Fragment", points: "x150" }, { task: "Use 1 Hero Skill Manual(s)", points: "x857" },
-                    { task: "Earn 1 Diamonds through bundle purchases", points: "x60" },
-                ]}, 
-                { time: "05:00:00", theme: "Settlement Construction" }, { time: "09:00:00", theme: "Chief Gear" },
+                { time: "01:00:00", theme: "Hero Upgrade" }, { time: "05:00:00", theme: "Settlement Construction" }, { time: "09:00:00", theme: "Chief Gear" },
                 { time: "13:00:00", theme: "Tech Research" }, { time: "17:00:00", theme: "Gear Enhancement" }, { time: "21:00:00", theme: "Behemoth Growth" },
             ],
             "Day 2": [ { time: "01:00:00", theme: "Settlement Construction" }, { time: "05:00:00", theme: "Chief Gear" }, { time: "09:00:00", theme: "Tech Research" }, { time: "13:00:00", theme: "Gear Enhancement" }, { time: "17:00:00", theme: "Behemoth Growth" }, { time: "21:00:00", theme: "Hero Upgrade" }, ],
@@ -275,8 +292,14 @@
         };
 
         const versionHistory = [
-            "v2.7 (2024-07-28): Added Day 1 tasks for Alliance Duel, Turbo Turtle, and Power Play. Reverted to stable bilingual EN/FR version.",
-            "v2.6 (2024-07-28): Implemented full multilingual support for all 17 in-game languages.", "v2.5 (2024-07-28): Implemented bilingual (EN/FR) functionality with a language switcher.", "v2.4 (2024-07-28): Highlighted event rule titles in the Guide & Strategy section.", "v2.3 (2024-07-28): Highlighted menu names in the Guide & Strategy section for better readability.", "v2.2 (2024-07-28): Added Turbo Turtle and Power Play rules to the Guide & Strategy page.", "v2.1 (2024-07-28): Added Alliance Duel rules and conditions to the Guide & Strategy page.", "v2.0 (2024-07-28): Completed Turbo Turtle event data with detailed tasks and points for Phase 7.", "v1.9 (2024-07-28): Added an intellectual property disclaimer in the footer.", "v1.8 (2024-07-27): Renamed Home to Guide & Strategy and added detailed instructions.", "v1.7 (2024-07-27): Corrected Power Play schedule time to UTC+1.", 
+            "v2.8 (2024-07-28): Added Power Play tasks for 'Chief Gear' theme.",
+            "v2.7 (2024-07-28): Added Day 1 tasks for Alliance Duel, Turbo Turtle, and Power Play. Reverted to stable single-language version.",
+            "v2.2 (2024-07-28): Added Turbo Turtle and Power Play rules to the Guide & Strategy page.",
+            "v2.1 (2024-07-28): Added Alliance Duel rules and conditions to the Guide & Strategy page.",
+            "v2.0 (2024-07-28): Completed Turbo Turtle event data with detailed tasks and points for Phase 7.",
+            "v1.9 (2024-07-28): Added an intellectual property disclaimer in the footer.",
+            "v1.8 (2024-07-27): Renamed Home to Guide & Strategy and added detailed instructions.",
+            "v1.7 (2024-07-27): Corrected Power Play schedule time to UTC+1.", 
         ];
 
         // --- APP LOGIC ---
@@ -304,10 +327,11 @@
             function populateAllianceDuelSchedule() {
                 const tableBody = document.getElementById('duel-schedule-table');
                 tableBody.innerHTML = '';
+                const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
                 allianceDuelSchedule.forEach((item, index) => {
                     const row = tableBody.insertRow();
                     row.className = 'hover:bg-slate-700/50';
-                    row.innerHTML = `<td class="py-3 px-4">${item.day} (Monday)</td><td class="py-3 px-4 font-semibold">${item.theme}</td>`;
+                    row.innerHTML = `<td class="py-3 px-4">${item.day} (${days[index]})</td><td class="py-3 px-4 font-semibold">${item.theme}</td>`;
                 });
             }
             
@@ -393,8 +417,42 @@
 
             function populateTurboTurtleTasks() {
                 const container = document.getElementById('turtle-daily-tasks');
+                container.innerHTML = '';
                 const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-                createAccordion(container, turboTurtleTasks, "Phase", days);
+                turboTurtleSchedule.forEach((item, index) => {
+                    const accordionItem = document.createElement('div');
+                    accordionItem.className = 'bg-slate-800/70 backdrop-blur-sm rounded-xl shadow-lg';
+                    const button = document.createElement('button');
+                    button.className = 'w-full flex justify-between items-center p-4 text-left font-semibold text-lg text-emerald-400';
+                    const themeText = item.theme ? `: ${item.theme}` : '';
+                    button.innerHTML = `<span>${item.phase} (${days[index]})${themeText}</span><svg class="w-6 h-6 transform transition-transform text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>`;
+                    const content = document.createElement('div');
+                    content.className = 'accordion-content px-4 pb-4';
+                    const tasks = turboTurtleTasks[item.phase];
+                    if (tasks && tasks.length > 0) {
+                        let taskTable = `<table class="min-w-full text-left"><thead><tr class="border-b-2 border-slate-600"><th class="py-2 font-semibold">Task</th><th class="py-2 font-semibold">Points</th></tr></thead><tbody class="divide-y divide-slate-700">`;
+                        tasks.forEach(task => {
+                            taskTable += `<tr class="hover:bg-slate-700/50"><td class="py-2 pr-4">${task.task}</td><td class="py-2 font-medium text-emerald-400">${task.points}</td></tr>`;
+                        });
+                        taskTable += '</tbody></table>';
+                        content.innerHTML = taskTable;
+                    } else {
+                        content.innerHTML = '<p class="text-gray-400">N/A</p>';
+                    }
+                    accordionItem.appendChild(button);
+                    accordionItem.appendChild(content);
+                    container.appendChild(accordionItem);
+                    button.addEventListener('click', () => {
+                        const svg = button.querySelector('svg');
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                            svg.style.transform = 'rotate(0deg)';
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                            svg.style.transform = 'rotate(180deg)';
+                        }
+                    });
+                });
             }
 
             function populatePowerPlaySchedule() {
@@ -414,6 +472,13 @@
 
                     const content = document.createElement('div');
                     content.className = 'accordion-content px-4 pb-4';
+                    
+                    // Link themes to their tasks
+                    schedule.forEach(event => {
+                        if (powerPlayTasksByTheme[event.theme]) {
+                            event.tasks = powerPlayTasksByTheme[event.theme];
+                        }
+                    });
 
                     let scheduleTable = `<table class="min-w-full text-left"><thead><tr class="border-b-2 border-slate-600"><th class="py-2 font-semibold">Opening Time (UTC+1)</th><th class="py-2 font-semibold">Theme</th></tr></thead><tbody class="divide-y divide-slate-700">`;
                     schedule.forEach(item => {
