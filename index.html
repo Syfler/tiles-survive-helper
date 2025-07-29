@@ -19,10 +19,17 @@
             background-color: #34d399; /* emerald-400 */
             color: #111827; /* gray-900 */
         }
+        /* New Accordion Styles using CSS Grid for robust animation */
         .accordion-content {
-            max-height: 0;
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 0.3s ease-out;
+        }
+        .accordion-button.open + .accordion-content {
+            grid-template-rows: 1fr;
+        }
+        .accordion-content > div {
             overflow: hidden;
-            transition: max-height 0.3s ease-out;
         }
         .accordion-button svg {
             transition: transform 0.3s ease-in-out;
@@ -180,7 +187,13 @@ const allianceDuelSchedule = [
 
 const allianceDuelTasks = {
     "Day 1": [ { task: "Consume 1 Chief Stamina", points: "+600" }, { task: "Complete 1 Intel Mission(s)", points: "+93750" }, { task: "Use 100 points of Gear Scraps", points: "+5800" }, { task: "Use 400 points of Gear Scraps", points: "+23000" }, { task: "Use 2,000 points of Gear Scraps", points: "+114400" }, { task: "Use 10,000 points of Gear Scraps", points: "+571600" }, { task: "Earn 1 Diamonds through bundle purchases", points: "+20" }, { task: "Gather 100 Food", points: "+2" }, { task: "Gather 100 Wood", points: "+2" }, { task: "Gather 20 Metal", points: "+2" }, { task: "Gather 5 Gas", points: "+2" }, ],
-    "Day 2": [],
+    "Day 2": [
+        { task: "Use 1 min(s) of Speedups on Construction", points: "+625" },
+        { task: "Increase Power by 1 through Construction", points: "+22" },
+        { task: "Dispatch 1 A-class truck(s)", points: "+100000" },
+        { task: "Perform 1 S-tier task(s) in Dire Dispatch", points: "+150000" },
+        { task: "Earn 1 Diamonds through bundle purchases", points: "+20" }
+    ],
     "Day 3": [{ task: "Use 1 min(s) of Speedups on Research", points: "+625" }, { task: "Increase Power by 1 through Research", points: "+10" }, { task: "Spend 1 Clash Medal(s)", points: "+5000" }, { task: "Complete 1 Intel Mission(s)", points: "+75,000" }, { task: "Earn 1 Diamonds through bundle purchases", points: "+20" }, { task: "Every 100 Behemoth EXP gained in a single attempt", points: "+2,000" }, { task: "Use 1 Behemoth Cell(s)", points: "+24,000" },],
     "Day 4": [{ task: "Perform 1 Targeted Draft(s)", points: "+33,500" }, { task: "Perform 1 Advanced Recruitment(s)", points: "+7,500" }, { task: "Perform 1 Standard Recruitment(s)", points: "+1,250" }, { task: "Use a Legendary Hero Fragment", points: "+30,400" }, { task: "Use an Epic Hero Fragment", points: "+3,200" }, { task: "Use a Rare Hero Fragment", points: "+320" }, { task: "Use 1 Hero Skill Manual(s)", points: "+5,000" }, { task: "Earn 1 Diamonds through bundle purchases", points: "+20" },],
     "Day 5": [{ task: "Complete 1 Intel Mission(s)", points: "+93,750" }, { task: "Use 1 min(s) of Speedups on Construction", points: "+625" }, { task: "Increase Power by 1 through Construction", points: "+22" }, { task: "Use 1 min(s) of Speedups on Research", points: "+625" }, { task: "Increase Power by 1 through Research", points: "+10" }, { task: "Use 1 min(s) of Speedups on Troop Training/Upgrading", points: "+625" }, { task: "Train a Lv. 1 Soldier", points: "+14" }, { task: "Train a Lv. 2 Soldier", points: "+25" }, { task: "Train a Lv. 3 Soldier", points: "+39" }, { task: "Train a Lv. 4 Soldier", points: "+51" }, { task: "Train a Lv. 5 Soldier", points: "+61" }, { task: "Train a Lv. 6 Soldier", points: "N/A" }, { task: "Train a Lv. 7 Soldier", points: "N/A" }, { task: "Train a Lv. 8 Soldier", points: "N/A" }, { task: "Train a Lv. 9 Soldier", points: "N/A" }, { task: "Train a Lv. 10 Soldier", points: "N/A" },],
@@ -194,7 +207,14 @@ const turboTurtleSchedule = [
 
 const turboTurtleTasks = {
     "Phase 1": [ { task: "Use 1 min(s) of Speedups on Research", points: "+700" }, { task: "Use 100 points of Gear Scraps", points: "+4,000" }, { task: "Use 400 points of Gear Scraps", points: "+16,000" }, { task: "Use 2,000 points of Gear Scraps", points: "+80,000" }, { task: "Use 10,000 points of Gear Scraps", points: "+400,000" }, { task: "Train a Lv. 1 Soldier", points: "+32" }, { task: "Train a Lv. 2 Soldier", points: "+55" }, { task: "Train a Lv. 3 Soldier", points: "+90" }, { task: "Train a Lv. 4 Soldier", points: "+115" }, { task: "Train a Lv. 5 Soldier", points: "+144" }, { task: "Train a Lv. 6 Soldier", points: "+190" }, { task: "Train a Lv. 7 Soldier", points: "+240" }, { task: "Train a Lv. 8 Soldier", points: "+340" }, { task: "Train a Lv. 9 Soldier", points: "+540" }, { task: "Train a Lv. 10 Soldier", points: "+1,200" }, { task: "Earn 1 Diamonds through bundle purchases", points: "+400" }, ],
-    "Phase 2": [],
+    "Phase 2": [
+        { task: "Use 1 min(s) of Speedups on Construction", points: "+700" },
+        { task: "Use 100 points of Gear Scraps", points: "+4,000" },
+        { task: "Use 400 points of Gear Scraps", points: "+16,000" },
+        { task: "Use 2,000 points of Gear Scraps", points: "+80,000" },
+        { task: "Use 10,000 points of Gear Scraps", points: "+400,000" },
+        { task: "Earn 1 Diamonds through bundle purchases", points: "+400" }
+    ],
     "Phase 3": [{ task: "Use 1 Behemoth Cell(s)", points: "+20,000" }, { task: "Every 100 Behemoth EXP gained in a single attempt", points: "+1,000" }, { task: "Use 1 min(s) of Speedups on Research", points: "+700" }, { task: "Earn 1 Diamonds through bundle purchases", points: "+400" },],
     "Phase 4": [{ task: "Spend Draft Vouchers on Hero Recruitment 1 time(s)", points: "+20,000" }, { task: "Spend Advanced Recruitment Tokens on Hero Recruitment 1 time(s)", points: "+8,000" }, { task: "Spend Standard Recruitment Tokens on Hero Recruitment 1 time(s)", points: "+2,000" }, { task: "Use a Legendary Hero Fragment", points: "+35,000" }, { task: "Use an Epic Hero Fragment", points: "+9,000" }, { task: "Use a Rare Hero Fragment", points: "+3,000" }, { task: "Use 1 Hero Skill Manual(s)", points: "+2,500" }, { task: "Earn 1 Diamonds through bundle purchases", points: "+400" },],
     "Phase 5": [{ task: "Use 1 Adhesive", points: "+3,000" }, { task: "Use 1 Chief Gear Design(s)", points: "+150,000" }, { task: "Use 100 points of Gear Scraps", points: "+4,000" }, { task: "Use 400 points of Gear Scraps", points: "+16,000" }, { task: "Use 2,000 points of Gear Scraps", points: "+80,000" }, { task: "Use 10,000 points of Gear Scraps", points: "+400,000" }, { task: "Earn 1 Diamonds through bundle purchases", points: "+400" },],
@@ -215,6 +235,11 @@ const powerPlayTasksByTheme = {
     "Tech Research": [
         { task: "Increase Power by 1 through Research", points: "x3" },
         { task: "Use 1 min(s) of Speedups on Research", points: "x42" },
+        { task: "Earn 1 Diamonds through bundle purchases", points: "x60" },
+    ],
+    "Settlement Construction": [
+        { task: "Increase Power by 1 through Construction", points: "x3" },
+        { task: "Use 1 min(s) of Speedups on Construction", points: "x42" },
         { task: "Earn 1 Diamonds through bundle purchases", points: "x60" },
     ]
 };
@@ -270,22 +295,41 @@ document.addEventListener('DOMContentLoaded', () => {
     
     function populateGuidePage() {
         const guideEvents = [
-            { title: "Power Plant Req's", rules: "This section shows the building requirements for each Power Plant level.", tip: "Always focus on building the required buildings for the next Power Plant level before using speedups to finish your current Power Plant construction. As construction times get longer at higher levels, it's crucial not to rush. This ensures that once your current Power Plant is complete, you only need to upgrade the final required building to its new level to immediately start the next Power Plant upgrade, avoiding long waiting times." },
-            { title: "Alliance Duel", rules: "A week-long event where you compete with another alliance. Each day has a different theme for earning points.", tip: "Coordinate with your alliance. Focus on the daily tasks and save high-point items (like advanced recruitments) for the corresponding day." },
+             { 
+                title: "Power Plant Req's", 
+                simpleContent: `
+                    <p class="text-gray-300">
+                        This section helps you plan your upgrades efficiently. Use the <strong class="text-emerald-400">"Power Plant Req's"</strong> menu on your left to find out the building prerequisites for your next Power Plant levels.
+                    </p>
+                    <p class="mt-3 text-gray-400 text-sm">
+                        <strong>Note:</strong> Resource costs and construction times are not listed here. The sole purpose is to answer the question: "What required buildings should I upgrade while my current Power Plant upgrade is in progress?"
+                    </p>
+                `
+            },
+            { 
+                title: "Alliance Duel",
+                howToUse: `<p class="text-gray-300">Use the <strong class="text-emerald-400">"Alliance Duel"</strong> menu to check the daily theme. Plan ahead and save your resources to score maximum points on the corresponding day. This is the key to unlocking all 9 personal milestone chests daily and helping your alliance win the duel.</p>`,
+                rules: `<ul class="list-disc list-inside text-gray-300 space-y-2"><li>A Power Plant level 10 is required to participate.</li><li>Your Alliance must have 10 or more members.</li><li><strong class="text-amber-400">Important:</strong> Switching Alliances during the event will block your point contributions for that day. Your personal milestone rewards will not be affected.</li></ul>`
+            },
             { title: "Turbo Turtle", rules: "A multi-phase event where players complete tasks to earn points and rewards.", tip: "Check the phases in advance. The final phase, 'Power Rush', often allows points from many categories, making it a good time to use any remaining resources." },
             { title: "Power Play", rules: "A recurring daily event with rotating themes every few hours. Points are multiplied.", tip: "Set alarms for the themes you want to focus on, like Hero Upgrades or Chief Gear. The point multipliers are significant." }
         ];
         const guideContainer = document.getElementById('guide-accordions');
         guideContainer.innerHTML = ''; // Clear previous content
         guideEvents.forEach(event => {
-            let subAccordionContent = `
-                <div class="space-y-3">
-                    ${createAccordion('How to use this section', `<p>Use this to understand the event's purpose and how to best prepare for it.</p>`).innerHTML}
-                    ${createAccordion('Event Rules & Conditions', `<p>${event.rules}</p>`).innerHTML}
-                    ${createAccordion('Tips & Tricks', `<p>${event.tip}</p>`).innerHTML}
-                </div>
-            `;
-            guideContainer.appendChild(createAccordion(event.title, subAccordionContent));
+            let content;
+            if (event.simpleContent) {
+                content = event.simpleContent;
+            } else {
+                content = `
+                    <div class="space-y-3">
+                        ${createAccordion('How to use this section', event.howToUse || `<p>Use this to understand the event's purpose and how to best prepare for it.</p>`).innerHTML}
+                        ${createAccordion('Event Rules & Conditions', event.rules || `<p>Specific rules for this event.</p>`).innerHTML}
+                        ${createAccordion('Tips & Tricks', event.tip || `<p>Tips and tricks to maximize your points.</p>`).innerHTML}
+                    </div>
+                `;
+            }
+            guideContainer.appendChild(createAccordion(event.title, content));
         });
     }
 
@@ -390,15 +434,8 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.addEventListener('click', (e) => {
         const button = e.target.closest('.accordion-button');
         if (!button) return;
-
-        const content = button.nextElementSibling;
+        
         button.classList.toggle('open');
-
-        if (content.style.maxHeight) {
-            content.style.maxHeight = null;
-        } else {
-            content.style.maxHeight = content.scrollHeight + 'px';
-        }
     });
 
     // Modal Logic
