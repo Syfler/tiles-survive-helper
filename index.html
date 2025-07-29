@@ -309,10 +309,20 @@ document.addEventListener('DOMContentLoaded', () => {
             { 
                 title: "Alliance Duel",
                 howToUse: `<p class="text-gray-300">Use the <strong class="text-emerald-400">"Alliance Duel"</strong> menu to check the daily theme. Plan ahead and save your resources to score maximum points on the corresponding day. This is the key to unlocking all 9 personal milestone chests daily and helping your alliance win the duel.</p>`,
-                rules: `<ul class="list-disc list-inside text-gray-300 space-y-2"><li>A Power Plant level 10 is required to participate.</li><li>Your Alliance must have 10 or more members.</li><li><strong class="text-amber-400">Important:</strong> Switching Alliances during the event will block your point contributions for that day. Your personal milestone rewards will not be affected.</li></ul>`
+                rules: `<ul class="list-disc list-inside text-gray-300 space-y-2"><li>A Power Plant level 10 is required to participate.</li><li>Your Alliance must have 10 or more members.</li><li><strong class="text-amber-400">Important:</strong> Switching Alliances during the event will block your point contributions for that day. Your personal milestone rewards will not be affected.</li></ul>`,
+                tip: `<p class="text-gray-300">Patience is key. Hoard your speedups, fragments, and materials until the day they are featured in the duel. While this might slightly delay your personal progress, the massive boost in points will earn you far greater rewards and be a huge help to your alliance's victory.</p>`
             },
-            { title: "Turbo Turtle", rules: "A multi-phase event where players complete tasks to earn points and rewards.", tip: "Check the phases in advance. The final phase, 'Power Rush', often allows points from many categories, making it a good time to use any remaining resources." },
-            { title: "Power Play", rules: "A recurring daily event with rotating themes every few hours. Points are multiplied.", tip: "Set alarms for the themes you want to focus on, like Hero Upgrades or Chief Gear. The point multipliers are significant." }
+            { 
+                title: "Turbo Turtle", 
+                howToUse: `<p class="text-gray-300">Use the <strong class="text-emerald-400">"Turbo Turtle"</strong> menu to check the daily phase. The main goal is to unlock all 5 milestone chests each day to collect the 3 daily Race Medals. Accumulating 20 medals allows you to buy the weekly "Custom Alloy Gear Crate" from the event store.</p>`,
+                rules: `<ul class="list-disc list-inside text-gray-300 space-y-2"><li>The event consists of 5-8 stages, each lasting 1-2 days.</li><li>Players are grouped into tiers (Bronze to Master). Top performers in each group advance to a higher tier for better rewards, while bottom performers drop.</li><li>Your final tier carries over to the next event session.</li></ul>`, 
+                tip: "Check the phases in advance. The final phase, 'Power Rush', often allows points from many categories, making it a good time to use any remaining resources." 
+            },
+            { 
+                title: "Power Play", 
+                rules: `<ul class="list-disc list-inside text-gray-300 space-y-2"><li>The event opens daily, with a new theme every 4 hours.</li><li>Every day, 12 players with similar Power Plant levels are grouped for ranking.</li><li>A minimum of 1 point is required to be eligible for daily ranking rewards.</li></ul>`, 
+                tip: "Set alarms for the themes you want to focus on, like Hero Upgrades or Chief Gear. The point multipliers are significant." 
+            }
         ];
         const guideContainer = document.getElementById('guide-accordions');
         guideContainer.innerHTML = ''; // Clear previous content
