@@ -77,7 +77,7 @@
                     <p>This tool is designed to help you optimize resource management in Tiles Survive! by providing clear, up-to-date information on tasks and event schedules. Plan ahead to maximize your rewards.</p>
                     <div class="bg-red-900/50 border border-red-500 rounded-lg p-4">
                         <h3 class="text-xl text-red-400">CRITICAL WARNING!</h3>
-                        <p class="mt-2 text-red-200">Do not spend resources (speedups, materials, etc.) outside of corresponding events. Hoarding is key. Using items only when an event rewards you for it is the single most important strategy for efficient growth.</p>
+                        <p class="mt-2 text-red-200">Want to get strong, fast? Save everything! (speedups, fragments, materials, etc.). Use your items only when an event pays you for it. It might feel slow, but waiting for the right day brings bigger rewards and helps you grow faster in the long run. Patience = Profit.</p>
                     </div>
                     <div id="guide-accordions" class="space-y-4"></div>
                 </section>
@@ -325,8 +325,9 @@ document.addEventListener('DOMContentLoaded', () => {
             },
             { 
                 title: "Power Play", 
+                howToUse: `<p class="text-gray-300">Use the <strong class="text-emerald-400">"Power Play"</strong> menu to check the active 4-hour theme before spending any items. For maximum efficiency, try to sync your spending with tasks from other events like Alliance Duel or Turbo Turtle.</p>`,
                 rules: `<ul class="list-disc list-inside text-gray-300 space-y-2"><li>The event opens daily, with a new theme every 4 hours.</li><li>Every day, 12 players with similar Power Plant levels are grouped for ranking.</li><li>A minimum of 1 point is required to be eligible for daily ranking rewards.</li></ul>`, 
-                tip: "Set alarms for the themes you want to focus on, like Hero Upgrades or Chief Gear. The point multipliers are significant." 
+                tip: `<p class="text-gray-300 mb-3"><strong class="text-amber-400">Pro Tip:</strong> Your primary goal is to hit the 200k point milestone in each 4-hour session. This grants you 3 chests and 6 Power Play Medals. Collecting 18 medals daily (by reaching 200k in three sessions) unlocks 3 extra daily chests.</p><p class="text-gray-300">Don't waste resources chasing the #1 rank; its reward (a single Legendary Hero Fragment) is often less valuable than top-tier rewards from Alliance Duel or Turbo Turtle. Smart resource management is better than a low-value first place.</p>`
             }
         ];
         const guideContainer = document.getElementById('guide-accordions');
