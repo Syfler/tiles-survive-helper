@@ -142,37 +142,13 @@
 
         <!-- Footer -->
         <footer class="text-center text-gray-500 p-4">
-             <button id="version-history-btn" class="hover:text-white underline text-xs">Version History</button>
             <p class="text-xs mt-2">Disclaimer: This tool is a fan-made project and is not affiliated with the official developers of Tiles Survive!. Information is subject to change based on game updates.</p>
         </footer>
     </div>
 </div>
 
-<!-- Version History Modal -->
-<div id="version-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center hidden z-50">
-    <div class="bg-slate-800 rounded-lg shadow-xl w-full max-w-lg p-6 m-4 relative">
-        <button id="close-modal-btn" class="absolute top-3 right-3 text-gray-400 hover:text-white text-3xl leading-none">&times;</button>
-        <h3 class="font-logo text-2xl text-emerald-400 mb-4">Version History</h3>
-        <ul id="version-list" class="list-disc list-inside text-sm text-gray-300 space-y-2">
-            <!-- JS will populate this -->
-        </ul>
-    </div>
-</div>
-
-
 <script>
 // --- DATA ---
-const versionHistory = [
-    "v2.8 (2024-07-28): Added Power Play tasks for 'Chief Gear' theme.",
-    "v2.7 (2024-07-28): Added Day 1 tasks for Alliance Duel, Turbo Turtle, and Power Play. Reverted to stable single-language version.",
-    "v2.2 (2024-07-28): Added Turbo Turtle and Power Play rules to the Guide & Strategy page.",
-    "v2.1 (2024-07-28): Added Alliance Duel rules and conditions to the Guide & Strategy page.",
-    "v2.0 (2024-07-28): Completed Turbo Turtle event data with detailed tasks and points for Phase 7.",
-    "v1.9 (2024-07-28): Added an intellectual property disclaimer in the footer.",
-    "v1.8 (2024-07-27): Renamed Home to Guide & Strategy and added detailed instructions.",
-    "v1.7 (2024-07-27): Corrected Power Play schedule time to UTC+1."
-];
-
 const powerPlantData = [
     { level: 17, prerequisites: ["Comms Outpost Lv.16", "Barracks 1 Lv.16"] }, { level: 18, prerequisites: [] }, { level: 19, prerequisites: [] }, { level: 20, prerequisites: [] }, { level: 21, prerequisites: [] }, { level: 22, prerequisites: [] },
     { level: 23, prerequisites: ["Comms Outpost Lv.22", "Barracks 1 Lv.22"] }, { level: 24, prerequisites: ["Lab 1 Lv.23", "Hero Academy Lv.18"] }, { level: 25, prerequisites: ["Comms Outpost Lv.24", "Barracks 1 Lv.24"] },
@@ -414,16 +390,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function populateVersionHistory() {
-        const versionList = document.getElementById('version-list');
-        versionList.innerHTML = ''; // Clear previous content
-        versionHistory.forEach(entry => {
-            const li = document.createElement('li');
-            li.textContent = entry;
-            versionList.appendChild(li);
-        });
-    }
-
     // --- EVENT LISTENERS ---
 
     // Navigation
@@ -453,25 +419,6 @@ document.addEventListener('DOMContentLoaded', () => {
         
         button.classList.toggle('open');
     });
-
-    // Modal Logic
-    const modal = document.getElementById('version-modal');
-    const openBtn = document.getElementById('version-history-btn');
-    const closeBtn = document.getElementById('close-modal-btn');
-
-    openBtn.addEventListener('click', () => {
-        modal.classList.remove('hidden');
-    });
-
-    closeBtn.addEventListener('click', () => {
-        modal.classList.add('hidden');
-    });
-
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) {
-            modal.classList.add('hidden');
-        }
-    });
     
     // --- INITIALIZATION ---
     function initializeApp() {
@@ -480,7 +427,6 @@ document.addEventListener('DOMContentLoaded', () => {
         populateAllianceDuelPage();
         populateTurboTurtlePage();
         populatePowerPlayPage();
-        populateVersionHistory();
     }
     
     initializeApp();
