@@ -118,7 +118,7 @@
                         </div>
                         <div class="bg-blue-900/30 border border-blue-500 rounded-lg p-3">
                             <p class="text-sm">
-                                <strong class="font-semibold text-blue-300">Point information:</strong> Points below assume Alliance Duel tech research is at 100%.
+                                <strong class="font-semibold text-blue-300">Point information:</strong> Points below assume all Alliance Duel tech research is at 100%.
                             </p>
                         </div>
                     </div>
@@ -192,7 +192,58 @@ const allianceDuelTasks = {
         { task: "Train a Lv. 10 Soldier", points: "+150" },
         { task: "Earn 1 Diamonds through bundle purchases", points: "+20" }
     ],
-    "Day 6": [{ task: "Collect 1 Flawed Sandworm Egg in Burrow Conquest", points: "+5,000" }, { task: "Collect 1 Fresh Sandworm Egg in Burrow Conquest", points: "+50,000" }, { task: "Collect 1 Perfect Sandworm Egg in Burrow Conquest", points: "+500,000" }, { task: "Dispatch 1 A-class truck(s)", points: "+100,000" }, { task: "Perform 1 S-tier task(s) in Dire Dispatch", points: "+150,000" }, { task: "Use 1 min(s) of Speedups on Construction", points: "+625" }, { task: "Use 1 min(s) of Speedups on Research", points: "+625" }, { task: "Use 1 min(s) of Speedups on Troop Training/Upgrading", points: "+625" }, { task: "Use 1 minute(s) of Healing Speedups", points: "+625" }, { task: "Defeat 1 Lv. 1 troop in burrows, cities, or Arcadia", points: "+4" }, { task: "Defeat 1 Lv. 2 troop in burrows, cities, or Arcadia", points: "+9" }, { task: "Defeat 1 Lv. 3 troop in burrows, cities, or Arcadia", points: "N/A" }, { task: "Defeat 1 Lv. 4 troop in burrows, cities, or Arcadia", points: "N/A" }, { task: "Defeat 1 Lv. 5 troop in burrows, cities, or Arcadia", points: "N/A" }, { task: "Defeat 1 Lv. 6 troop in burrows, cities, or Arcadia", points: "N/A" }, { task: "Defeat 1 Lv. 7 troop in burrows, cities, or Arcadia", points: "N/A" }, { task: "Defeat 1 Lv. 8 troop in burrows, cities, or Arcadia", points: "N/A" }, { task: "Defeat 1 Lv. 9 troop in burrows, cities, or Arcadia", points: "N/A" }, { task: "Defeat 1 Lv. 10 troop in burrows, cities, or Arcadia", points: "N/A" },],
+    "Day 6": [
+        { task: "Collect 1 Flawed Sandworm Egg in Burrow Conquest", points: "+5000" },
+        { task: "Collect 1 Fresh Sandworm Egg in Burrow Conquest", points: "+50000" },
+        { task: "Collect 1 Perfect Sandworm Egg in Burrow Conquest", points: "+500000" },
+        { task: "Dispatch 1 A-class truck(s)", points: "+100000" },
+        { task: "Perform 1 S-tier task(s) in Dire Dispatch", points: "+150000" },
+        { task: "Use 1 min(s) of Speedups on Construction", points: "+625" },
+        { task: "Use 1 min(s) of Speedups on Research", points: "+625" },
+        { task: "Use 1 min(s) of Speedups on Troop Training/Upgrading", points: "+625" },
+        { task: "Use 1 minute(s) of Healing Speedups", points: "+625" },
+        { task: "Defeat 1 Lv. 1 troop in burrows, cities, or Arcadia", points: "+5" },
+        { task: "Defeat 1 Lv. 2 troop in burrows, cities, or Arcadia", points: "+10" },
+        { task: "Defeat 1 Lv. 3 troop in burrows, cities, or Arcadia", points: "+15" },
+        { task: "Defeat 1 Lv. 4 troop in burrows, cities, or Arcadia", points: "+20" },
+        { task: "Defeat 1 Lv. 5 troop in burrows, cities, or Arcadia", points: "+22" },
+        { task: "Defeat 1 Lv. 6 troop in burrows, cities, or Arcadia", points: "+30" },
+        { task: "Defeat 1 Lv. 7 troop in burrows, cities, or Arcadia", points: "+32" },
+        { task: "Defeat 1 Lv. 8 troop in burrows, cities, or Arcadia", points: "+37" },
+        { task: "Defeat 1 Lv. 9 troop in burrows, cities, or Arcadia", points: "+45" },
+        { task: "Defeat 1 Lv. 10 troop in burrows, cities, or Arcadia", points: "+52" },
+        { task: "Defeat 1 Lv. 1 troop in opponent's Settlement", points: "+5" },
+        { task: "Defeat 1 Lv. 2 troop in opponent's Settlement", points: "+10" },
+        { task: "Defeat 1 Lv. 3 troop in opponent's Settlement", points: "+15" },
+        { task: "Defeat 1 Lv. 4 troop in opponent's Settlement", points: "+20" },
+        { task: "Defeat 1 Lv. 5 troop in opponent's Settlement", points: "+22" },
+        { task: "Defeat 1 Lv. 6 troop in opponent's Settlement", points: "+30" },
+        { task: "Defeat 1 Lv. 7 troop in opponent's Settlement", points: "+32" },
+        { task: "Defeat 1 Lv. 8 troop in opponent's Settlement", points: "+37" },
+        { task: "Defeat 1 Lv. 9 troop in opponent's Settlement", points: "+45" },
+        { task: "Defeat 1 Lv. 10 troop in opponent's Settlement", points: "+52" },
+        { task: "Lose 1 Lv. 1 troop in burrows, cities, or Arcadia", points: "+2" },
+        { task: "Lose 1 Lv. 2 troop in burrows, cities, or Arcadia", points: "+2" },
+        { task: "Lose 1 Lv. 3 troop in burrows, cities, or Arcadia", points: "+4" },
+        { task: "Lose 1 Lv. 4 troop in burrows, cities, or Arcadia", points: "+6" },
+        { task: "Lose 1 Lv. 5 troop in burrows, cities, or Arcadia", points: "+8" },
+        { task: "Lose 1 Lv. 6 troop in burrows, cities, or Arcadia", points: "+8" },
+        { task: "Lose 1 Lv. 7 troop in burrows, cities, or Arcadia", points: "+10" },
+        { task: "Lose 1 Lv. 8 troop in burrows, cities, or Arcadia", points: "+12" },
+        { task: "Lose 1 Lv. 9 troop in burrows, cities, or Arcadia", points: "+12" },
+        { task: "Lose 1 Lv. 10 troop in burrows, cities, or Arcadia", points: "+14" },
+        { task: "Lose 1 Lv. 1 troop in your Settlement", points: "+2" },
+        { task: "Lose 1 Lv. 2 troop in your Settlement", points: "+2" },
+        { task: "Lose 1 Lv. 3 troop in your Settlement", points: "+4" },
+        { task: "Lose 1 Lv. 4 troop in your Settlement", points: "+6" },
+        { task: "Lose 1 Lv. 5 troop in your Settlement", points: "+8" },
+        { task: "Lose 1 Lv. 6 troop in your Settlement", points: "+8" },
+        { task: "Lose 1 Lv. 7 troop in your Settlement", points: "+10" },
+        { task: "Lose 1 Lv. 8 troop in your Settlement", points: "+12" },
+        { task: "Lose 1 Lv. 9 troop in your Settlement", points: "+12" },
+        { task: "Lose 1 Lv. 10 troop in your Settlement", points: "+14" },
+        { task: "Earn 1 Diamonds through bundle purchases", points: "+20" }
+    ],
 };
 
 const turboTurtleSchedule = [
