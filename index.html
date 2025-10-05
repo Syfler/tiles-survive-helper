@@ -65,6 +65,7 @@
             <li><a href="#turbo-turtle" data-target="turbo-turtle" class="nav-link flex items-center py-3 px-4 rounded-lg transition-colors duration-200 hover:bg-emerald-500/20"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd" /></svg>Turbo Turtle</a></li>
             <li><a href="#power-play" data-target="power-play" class="nav-link flex items-center py-3 px-4 rounded-lg transition-colors duration-200 hover:bg-emerald-500/20"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 5.555a1 1 0 011.888 0l1.264 3.862a1 1 0 00.948.65h4.03a1 1 0 01.588 1.81l-3.26 2.37a1 1 0 00-.364 1.118l1.264 3.862a1 1 0 01-1.528 1.18l-3.26-2.37a1 1 0 00-1.176 0l-3.26 2.37a1 1 0 01-1.528-1.18l1.264-3.862a1 1 0 00-.364-1.118L2.04 11.877a1 1 0 01.588-1.81h4.03a1 1 0 00.948-.65L9.555 5.555z" clip-rule="evenodd" /></svg>Power Play</a></li>
             <li><a href="#oil-clash" data-target="oil-clash" class="nav-link flex items-center py-3 px-4 rounded-lg transition-colors duration-200 hover:bg-emerald-500/20"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.05 3.636a1 1 0 011.414 0L10 7.172l3.536-3.536a1 1 0 111.414 1.414L11.414 8.586l3.536 3.536a1 1 0 11-1.414 1.414L10 9.999l-3.536 3.536a1 1 0 11-1.414-1.414L8.586 8.586 5.05 5.05a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>Oil Clash</a></li>
+            <li><a href="#reservoir-raid" data-target="reservoir-raid" class="nav-link flex items-center py-3 px-4 rounded-lg transition-colors duration-200 hover:bg-emerald-500/20"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 000 2h6a1 1 0 100-2H7z" clip-rule="evenodd" /></svg>Reservoir Raid</a></li>
         </ul>
     </nav>
 
@@ -144,6 +145,13 @@
                     <h2 class="text-4xl text-emerald-400">Oil Clash - Daily Strategy</h2>
                     <p class="text-gray-400">Archive of the daily battle plans for the Oil Clash event.</p>
                     <div id="oil-clash-accordions" class="space-y-4"></div>
+                </section>
+
+                <!-- Reservoir Raid Section -->
+                <section id="reservoir-raid" class="content-section hidden space-y-6">
+                    <h2 class="text-4xl text-emerald-400">Reservoir Raid</h2>
+                    <p class="text-gray-400">Guides and strategies for the weekly Reservoir Raid event.</p>
+                    <div id="reservoir-raid-accordions" class="space-y-4"></div>
                 </section>
             </div>
         </main>
@@ -415,7 +423,99 @@ const oilClashDailyPlans = [
                     <li><strong>vs FRA (2 Players Max):</strong> S-Rig 31, S-Rig 32.</li>
                 </ul>
                 <h4>IMPORTANT ORDERS</h4>
-                <p>This is the initial plan. Do not rush your attempts as we will adapt during the day. FullPPistola has command if I am offline.</p>
+                <p>This is the initial plan. Do not rush your attempts as we will adapt during the day. FullPistola has command if I am offline.</p>
+            </div>
+        `
+    }
+];
+
+const reservoirRaidData = [
+    {
+        title: "Gameplay Summary",
+        content: `
+            <style>
+                .rr-section h4 { font-family: 'Luckiest Guy', cursive; color: #34d399; margin-top: 1.25rem; margin-bottom: 0.5rem; font-size: 1.2em; border-bottom: 1px solid #475569; padding-bottom: 0.25rem;}
+                .rr-section p, .rr-section ul { margin-bottom: 0.75rem; }
+                .rr-section ul { list-style-position: inside; }
+                .rr-section li { margin-bottom: 0.5rem; }
+                .rr-section strong { color: #facc15; }
+                .rr-section .building-cat { color: #67e8f9; font-family: 'Luckiest Guy', cursive; font-size: 1.1em; margin-top: 1rem;}
+            </style>
+            <div class="rr-section text-gray-300">
+                <h4>1. The Main Goal</h4>
+                <p>The primary objective is to have the highest amount of <strong class="text-yellow-400">Purified Water</strong> at the end of the one-hour raid.</p>
+                
+                <h4>2. Key Gameplay Mechanics</h4>
+                <ul>
+                    <li><strong>No Troop Loss:</strong> Your troops will not die. Wounded troops recover automatically and for free after the event.</li>
+                    <li><strong>Free Relocation:</strong> Use your free Advanced Relocators to move around the map. Cooldowns apply.</li>
+                    <li><strong>Battle Stages:</strong> Different buildings unlock at different stages of the event.</li>
+                </ul>
+
+                <h4>3. How to Earn Purified Water</h4>
+                <ul>
+                    <li><strong>A. Controlling Buildings (PvE):</strong> The most important way to earn <strong class="text-yellow-400">Alliance Water</strong> over time by capturing and holding buildings.</li>
+                    <li><strong>B. Gathering Water Points (PvE):</strong> An excellent way to get instant bursts of <strong class="text-yellow-400">Alliance Water</strong>. This uses your gathering squads, keeping your main army free for combat.</li>
+                    <li><strong>C. Defeating Enemy Troops (PvP):</strong> This earns you <strong class="text-yellow-400">Solo Water</strong> (not Alliance Water). You get points for fighting at buildings or attacking enemy settlements directly.</li>
+                </ul>
+
+                <h4>4. The Buildings of the Canyon</h4>
+                <p>Buildings are separated into two categories: those that generate points and those that give strategic bonuses.</p>
+                
+                <p class="building-cat">A. Water Generation Buildings (Your main source of points)</p>
+                <ul>
+                    <li><strong>Central Reservoir:</strong> The most valuable target (+1,800 Water/min).</li>
+                    <li><strong>Water Treatment Center (x2):</strong> High-value targets (+1,200 Water/min).</li>
+                    <li><strong>Water Processing Plant (x4):</strong> Medium-value targets (+600 Water/min).</li>
+                    <li><strong>Water Tanks:</strong> Appear randomly in Stage 3 for a quick water boost.</li>
+                </ul>
+
+                <p class="building-cat">B. Strategic Bonus Buildings (Your key to victory)</p>
+                <ul>
+                    <li><strong>Munitions Factory:</strong> Grants a powerful <strong class="text-yellow-400">+15% Troop Damage & +15% Troop Defense</strong> bonus to the entire alliance. A top priority.</li>
+                    <li><strong>Dev Compound:</strong> Allows you to launch an <strong class="text-yellow-400">Infected Wave</strong> to weaken an enemy-held building before an attack.</li>
+                    <li><strong>Abandoned Helipad:</strong> <strong class="text-yellow-400">Reduces relocator cooldown by 50%</strong>, giving your alliance superior mobility.</li>
+                    <li><strong>Solar Power Station:</strong> <strong class="text-yellow-400">Reduces building capture time by 50%</strong>, perfect for last-minute steals.</li>
+                </ul>
+            </div>
+        `
+    },
+    {
+        title: "Quick Strategy Guide",
+        content: `
+            <style>
+                .rr-section h4 { font-family: 'Luckiest Guy', cursive; color: #34d399; margin-top: 1.25rem; margin-bottom: 0.5rem; font-size: 1.2em; border-bottom: 1px solid #475569; padding-bottom: 0.25rem;}
+                .rr-section p, .rr-section ol { margin-bottom: 0.75rem; }
+                .rr-section ol { list-style-type: decimal; list-style-position: inside; }
+                .rr-section li { margin-bottom: 0.5rem; }
+                .rr-section strong { color: #facc15; }
+                .rr-section .priority-cat { color: #67e8f9; font-family: 'Luckiest Guy', cursive; font-size: 1.1em; margin-top: 1rem;}
+            </style>
+            <div class="rr-section text-gray-300">
+                <h4>1. Core Principles: Defense & Mobility</h4>
+                <ul>
+                    <li><strong>Rule of Two:</strong> We need a minimum of <strong class="text-yellow-400">2 players garrisoned</strong> in every building we hold. Do not leave a building with only one defender.</li>
+                    <li><strong>Stay Mobile:</strong> Be prepared to use your free relocators to jump to a building that is under heavy attack. Our strength is our ability to reinforce each other quickly.</li>
+                </ul>
+                <h4>2. Target Priority List</h4>
+                <p>This is the order in which we will capture buildings. Always focus on the highest available priority.</p>
+                
+                <p class="priority-cat">Priority 1: Strategic Bonus Buildings (Game Changers)</p>
+                <ol>
+                    <li><strong>Munitions Factory</strong> (+15% Attack & Defense) - <em class="text-gray-400">This is our top priority. It helps us win all fights.</em></li>
+                    <li><strong>Dev Compound</strong> (Launches Infected Wave) - <em class="text-gray-400">Use this to weaken heavily defended enemy buildings before we attack.</em></li>
+                    <li><strong>Abandoned Helipad</strong> (-50% Relocator Cooldown) - <em class="text-gray-400">Gives us superior mobility on the map.</em></li>
+                    <li><strong>Solar Power Station</strong> (-50% Capture Time) - <em class="text-gray-400">Crucial for stealing buildings quickly, especially near the end.</em></li>
+                </ol>
+
+                <p class="priority-cat">Priority 2: Water Generation Buildings (Point Factories)</p>
+                 <ol>
+                    <li><strong>Central Reservoir</strong> (+1,800 Water/min) - <em class="text-gray-400">The single most valuable building.</em></li>
+                    <li><strong>Water Treatment Centers</strong> (+1,200 Water/min each) - <em class="text-gray-400">Our main source of income.</em></li>
+                    <li><strong>Water Processing Plants</strong> (+600 Water/min each) - <em class="text-gray-400">Secure these to build and maintain our lead.</em></li>
+                </ol>
+
+                <p class="mt-4 text-center font-semibold">Follow the calls of the raid leaders. Coordination is key to victory!</p>
             </div>
         `
     }
@@ -626,6 +726,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    function populateReservoirRaidPage() {
+        const rrAccordions = document.getElementById('reservoir-raid-accordions');
+        rrAccordions.innerHTML = ''; // Clear previous content
+        reservoirRaidData.forEach(item => {
+            rrAccordions.appendChild(createAccordion(item.title, item.content));
+        });
+    }
+
     // --- EVENT LISTENERS ---
 
     // Navigation
@@ -664,6 +772,7 @@ document.addEventListener('DOMContentLoaded', () => {
         populateTurboTurtlePage();
         populatePowerPlayPage();
         populateOilClashPage();
+        populateReservoirRaidPage();
     }
     
     initializeApp();
